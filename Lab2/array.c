@@ -4,7 +4,7 @@ int get_index_of(const int numbers[], const size_t element_count, const int num)
 {
     size_t i;
 
-    for(i = 0; i < element_count; ++i) {
+    for (i = 0; i < element_count; ++i) {
         if (numbers[i] == num) {
             return i; 
         }
@@ -114,7 +114,7 @@ int insert(int numbers[], const size_t element_count, const int num, const size_
     }
 
     for (i = element_count - 1; i >= (int)pos; i--) {
-        numbers[i+1] = numbers[i];
+        numbers[i + 1] = numbers[i];
     }
     numbers[pos] = num;
 
@@ -125,6 +125,9 @@ int remove_at(int numbers[], const size_t element_count, const size_t index)
 {
     size_t i;
 
+    if (element_count == 0) {
+        return FALSE;
+    }
     if (element_count < index) {
         return FALSE;
     }
