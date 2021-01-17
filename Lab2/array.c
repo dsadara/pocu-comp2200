@@ -107,13 +107,13 @@ int has_even(const int numbers[], const size_t element_count)
 
 int insert(int numbers[], const size_t element_count, const int num, const size_t pos)
 {
-    size_t i;
+    int i;
 
     if (element_count < pos) {
         return FALSE;
     }
 
-    for (i = element_count - 1; i >= pos; --i) {
+    for (i = element_count - 1; i >= (int)pos; i--) {
         numbers[i+1] = numbers[i];
     }
     numbers[pos] = num;

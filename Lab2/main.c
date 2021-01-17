@@ -7,6 +7,7 @@ static int s_numbers[20] = { -1, 4, -5, 3, 10, 7, 4, 6, 5, -10, INT_MIN, INT_MIN
 
 static void test_remove_at(void);
 static void test_insert(void);
+void print_array(int numbers[], const size_t element_count);
 
 int main(void)
 {
@@ -14,9 +15,13 @@ int main(void)
     assert(get_last_index_of(s_numbers, 10, 4) == 6);
     assert(get_max_index(s_numbers, 10) == 4);
     assert(get_min_index(s_numbers, 10) == 9);
+    print_array(s_numbers, 10);
+    insert(s_numbers, 10, -21, 0);
+    print_array(s_numbers, 11);
+    /*
     test_insert();
     test_remove_at();
-
+    */
     return 0;
 }
 
@@ -26,8 +31,9 @@ static void test_insert(void)
     int expected_result[12] = { -21, -1, 4, -5, 3, 10, 7, 4, 6, 5, -10, -22 };
 
     assert(insert(s_numbers, 10, -21, 0) == TRUE);
+    print_array(s_numbers, 11);
     assert(insert(s_numbers, 11, -22, 11) == TRUE);
-
+    print_array(s_numbers, 12);
     for (i = 0; i < 12; i++)
     {
         assert(expected_result[i] == s_numbers[i]);
@@ -49,5 +55,13 @@ static void test_remove_at(void)
     for (i = 0; i < 10; i++)
     {
         assert(expected_result[i] == s_numbers[i]);
+    }
+}
+
+void print_array(int numbers[], const size_t element_count)
+{
+    size_t i;
+    for (i = 0; i < element_count; i++) {
+        printf("%d: %d\n", i, numbers[i]);
     }
 }
