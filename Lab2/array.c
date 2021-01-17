@@ -128,7 +128,7 @@ int remove_at(int numbers[], const size_t element_count, const size_t index)
     if (element_count == 0) {
         return FALSE;
     }
-    if (element_count < index) {
+    if (element_count <= index) {
         return FALSE;
     }
 
