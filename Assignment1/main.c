@@ -4,17 +4,19 @@
 void test_init_game(void);
 void test_horizontal_chain(void);
 void test_combined_chains(void);
-/*
-void test_swap_row(void);
+void test_diagonal_chain(void);
+void test_combined_diagonal_chain(void);
 void test_insert_row(void);
 void test_remove_row(void);
+void test_swap_row(void);
+void test_remove_row(void);
 void test_copy_row(void);
-*/
+
 
 int main(void)
 {
     test_init_game();
-    /*
+
     assert(is_placeable(0, 0) == TRUE);
     assert(is_placeable(14, 14) == TRUE);
     assert(is_placeable(15, 15) == FALSE);
@@ -24,16 +26,16 @@ int main(void)
     assert(get_color(0, 0) == 0);
     assert(place_stone(COLOR_WHITE, 0, 0) == FALSE);
     assert(place_stone(COLOR_BLACK, 0, 0) == FALSE);
+
     test_horizontal_chain();
     test_combined_chains();
-    */
-    test_diagonal_combined_chain();
-/*
-    test_swap_row();
+    test_diagonal_chain();
+    test_combined_diagonal_chain();
     test_insert_row();
     test_remove_row();
+    test_swap_row();
     test_copy_row();
-*/
+
     return 0;
 }
 
@@ -90,49 +92,57 @@ void test_combined_chains(void)
     assert(get_score(COLOR_BLACK) == 0);
 
     place_stone(COLOR_BLACK, 0, 3);
+
     assert(get_score(COLOR_BLACK) == 3);
 }
 
-void test_diagonal_combined_chain(void)
+void test_diagonal_chain(void)
 {
     test_init_game();
+    
+    place_stone(COLOR_WHITE, 0, 10);
+    place_stone(COLOR_WHITE, 1, 9);
+    place_stone(COLOR_WHITE, 2, 8);
+    place_stone(COLOR_WHITE, 3, 7);
+    place_stone(COLOR_WHITE, 4, 6);
 
-    place_stone(COLOR_BLACK, 0, 0);
-    place_stone(COLOR_BLACK, 1, 1);
-    place_stone(COLOR_BLACK, 2, 2);
-    place_stone(COLOR_BLACK, 3, 3);
+    assert(get_score(COLOR_WHITE) == 1);
 
-    place_stone(COLOR_BLACK, 3, 5);
-    place_stone(COLOR_BLACK, 2, 6);
-    place_stone(COLOR_BLACK, 1, 7);
-    place_stone(COLOR_BLACK, 0, 8);
+    place_stone(COLOR_WHITE, 5, 5);
+
+    assert(get_score(COLOR_WHITE) == 3);
+
+    place_stone(COLOR_WHITE, 7, 3);
+
+    assert(get_score(COLOR_WHITE) == 3);
+
+    place_stone(COLOR_WHITE, 6, 4);
+    assert(get_score(COLOR_WHITE) == 7);
 
     assert(get_score(COLOR_BLACK) == 0);
-
-    place_stone(COLOR_BLACK, 4, 4);
-
-    assert(get_score(COLOR_BLACK) == 4);
 }
-/*
-void test_swap_row(void)
+
+void test_combined_diagonal_chain(void)
 {
-    size_t i;
-
     test_init_game();
+    
+    place_stone(COLOR_WHITE, 0, 10);
+    place_stone(COLOR_WHITE, 1, 9);
+    place_stone(COLOR_WHITE, 2, 8);
+    place_stone(COLOR_WHITE, 4, 6);
+    place_stone(COLOR_WHITE, 5, 5);
 
-    for (i = 0; i < 6; i++) {
-        place_stone(COLOR_BLACK, 0, i);
-    }
+    place_stone(COLOR_WHITE, 4, 8);
+    place_stone(COLOR_WHITE, 5, 9);
+    place_stone(COLOR_WHITE, 6, 10);
+    place_stone(COLOR_WHITE, 7, 11);
 
-    assert(get_score(COLOR_BLACK) == 3);
+    assert(get_score(COLOR_WHITE) == 0);
 
-    assert(swap_rows(COLOR_BLACK, 0, 4) == TRUE);
-    assert(get_score(COLOR_BLACK) == 1);
 
-    for (i = 0; i < 6; i++) {
-        assert(is_placeable(0, i) == TRUE);
-        assert(is_placeable(4, i) == FALSE);
-    }
+    place_stone(COLOR_WHITE, 3, 7);
+
+    assert(get_score(COLOR_WHITE) == 3);
 }
 
 void test_insert_row(void)
@@ -149,7 +159,6 @@ void test_insert_row(void)
     place_stone(COLOR_BLACK, 2, 5);
 
     assert(get_score(COLOR_BLACK) == 3);
-
     assert(insert_row(COLOR_BLACK, 2) == TRUE);
     assert(get_score(COLOR_BLACK) == 0);
     assert(get_row_count() == 16);
@@ -182,6 +191,27 @@ void test_remove_row(void)
     }
 }
 
+void test_swap_row(void)
+{
+    size_t i;
+
+    test_init_game();
+
+    for (i = 0; i < 6; i++) {
+        place_stone(COLOR_BLACK, 0, i);
+    }
+
+    assert(get_score(COLOR_BLACK) == 3);
+
+    assert(swap_rows(COLOR_BLACK, 0, 4) == TRUE);
+    assert(get_score(COLOR_BLACK) == 1);
+
+    for (i = 0; i < 6; i++) {
+        assert(is_placeable(0, i) == TRUE);
+        assert(is_placeable(4, i) == FALSE);
+    }
+}
+
 void test_copy_row(void)
 {
     size_t i;
@@ -207,4 +237,3 @@ void test_copy_row(void)
         assert(get_color(4, i) == get_color(2, i));
     }
 }
-*/

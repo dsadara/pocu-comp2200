@@ -31,12 +31,14 @@ void init_board(void);
 size_t count_horizontal_chain_score(const color_t color, const size_t row);
 
 size_t count_vertical_chain_score(const color_t color, const size_t col);
-/*
-size_t count_horizontal_chain_score(const color_t color);
 
-size_t count_verical_chain_score(const color_t color);
-*/
 size_t get_score_per_stone(size_t stone_sum);
+
+size_t check_boundary(const size_t row, const size_t col);
+
+size_t count_left_diagonal_chain_score(const color_t color, const size_t row, const size_t col);
+
+size_t count_right_diagonal_chain_score(const color_t color, const size_t row, const size_t col);
 
 /* special moves */
 int insert_row(const color_t color, const size_t row);
