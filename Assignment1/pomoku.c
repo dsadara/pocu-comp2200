@@ -29,6 +29,10 @@ void init_game(void)
     g_horizontal_score_before_black = 0;
     g_vertical_score_before_black = 0;
     g_vertical_score_before_white = 0;
+    g_left_diagonal_score_before_black = 0;
+    g_left_diagonal_score_before_white = 0;
+    g_right_diagonal_score_before_black = 0;
+    g_right_diagonal_score_before_white = 0;
 }
 
 size_t get_row_count(void)
@@ -141,6 +145,8 @@ int place_stone(const color_t color, const size_t row, const size_t col)
             g_right_diagonal_score_before_white = right_diagonal_score_temp;
             g_player1_score += g_right_diagonal_score_before_white;
         }
+    } else {
+        return FALSE;
     }
     return TRUE;
 }
@@ -150,8 +156,8 @@ void init_board(void)
     size_t i;
     size_t j;
 
-    for (i = 0; i < g_board_height; ++i) {
-        for (j = 0; j < g_board_width; ++j) {
+    for (i = 0; i < 20; ++i) {
+        for (j = 0; j < 20; ++j) {
             g_board[i][j] = -1;
         }
     }
