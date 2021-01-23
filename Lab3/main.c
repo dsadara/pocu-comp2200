@@ -6,14 +6,19 @@
 int main(void)
 {
     char cab[CAB_LENGTH];
-    const char* cluster_start_addresses[5];
-    size_t cluster_lengths[5];
+    const char* cluster_start_addresses[2];
+    size_t cluster_lengths[2];
 
     size_t out_longest_safe_area_length = 0;
     size_t* out_longest_safe_area_length_p = &out_longest_safe_area_length;
     const char* longest_safe_cluster_start_address;
     int time_in_mins;
     const char* cab_start_address = cab;
+    cluster_start_addresses[0] = &cab[3];
+    cluster_start_addresses[1] = &cab[34];
+
+    cluster_lengths[0] = 10U;
+    cluster_lengths[1] = 8U;
     /*
     cluster_start_addresses[0] = &cab[8];
     cluster_start_addresses[1] = &cab[1];
@@ -28,8 +33,9 @@ int main(void)
     cluster_lengths[4] = 10U;
 */
     longest_safe_cluster_start_address = get_longest_safe_zone_or_null(cab_start_address, CAB_LENGTH, cluster_start_addresses, cluster_lengths, 5, out_longest_safe_area_length_p);
-    assert(out_longest_safe_area_length == 50);
-    assert(longest_safe_cluster_start_address == cab_start_address);
+    printf("out_longest_safe_area_length: %zd\n", out_longest_safe_area_length);
+    assert(out_longest_safe_area_length == 20);
+    assert(longest_safe_cluster_start_address == cab_start_address + 14);
     /*
     time_in_mins = get_travel_time(cab_start_address, CAB_LENGTH, cluster_start_addresses, cluster_lengths, 5);
 
