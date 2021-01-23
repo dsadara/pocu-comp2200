@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include "cyber_spaceship.h"
 
-
+/*
 const char* get_longest_safe_zone_or_null(const char* const cab_start_location, const size_t cab_length, const char* const cluster_start_locations[], const size_t cluster_lengths[], const size_t cluster_count, size_t* out_longest_safe_area_length)
 {
     size_t i;
@@ -30,7 +30,43 @@ const char* get_longest_safe_zone_or_null(const char* const cab_start_location, 
             }
             temp_longest_safe_area_length = 0;
         }
+        
     }
+    return longest_safe_cluster_start_address;
+}
+*/
+const char* get_longest_safe_zone_or_null(const char* const cab_start_location, const size_t cab_length, const char* const cluster_start_locations[], const size_t cluster_lengths[], const size_t cluster_count, size_t* out_longest_safe_area_length)
+{
+    size_t i;
+    size_t is_start_point = TRUE;
+    size_t temp_longest_safe_area_length = 0;
+    size_t final_longest_safe_area_length = 0;
+    const char* longest_safe_cluster_start_address; 
+
+    if (cab_length == 0) {
+        *out_longest_safe_area_length = 0;
+        return NULL;
+    }
+
+    for (i = 0; i < cab_length; i++) {
+        if (cluster_overlap_count(cab_start_location + i, cluster_start_locations, cluster_lengths, cluster_count) % 2 == 0) { 
+            temp_longest_safe_area_length++;
+            if(is_start_point) {
+                longest_safe_cluster_start_address = cab_start_location + i;
+                is_start_point = FALSE;
+            }
+        } else {
+            if (temp_longest_safe_area_length > final_longest_safe_area_length) {
+                final_longest_safe_area_length = temp_longest_safe_area_length;
+                temp_longest_safe_area_length = 0;
+            }
+            is_start_point = TRUE;
+        }
+    }
+    if(final_longest_safe_area_length == 0) {
+        final_longest_safe_area_length = temp_longest_safe_area_length;
+    }
+    *out_longest_safe_area_length = final_longest_safe_area_length;
     return longest_safe_cluster_start_address;
 }
 

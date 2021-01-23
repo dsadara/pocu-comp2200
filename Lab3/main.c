@@ -14,7 +14,7 @@ int main(void)
     const char* longest_safe_cluster_start_address;
     int time_in_mins;
     const char* cab_start_address = cab;
-
+    /*
     cluster_start_addresses[0] = &cab[8];
     cluster_start_addresses[1] = &cab[1];
     cluster_start_addresses[2] = &cab[13];
@@ -26,15 +26,14 @@ int main(void)
     cluster_lengths[2] = 10U;
     cluster_lengths[3] = 13U;
     cluster_lengths[4] = 10U;
-
+*/
     longest_safe_cluster_start_address = get_longest_safe_zone_or_null(cab_start_address, CAB_LENGTH, cluster_start_addresses, cluster_lengths, 5, out_longest_safe_area_length_p);
-
-    assert(out_longest_safe_area_length == 15);
-    assert(longest_safe_cluster_start_address == cab_start_address + 18);
-
+    assert(out_longest_safe_area_length == 50);
+    assert(longest_safe_cluster_start_address == cab_start_address);
+    /*
     time_in_mins = get_travel_time(cab_start_address, CAB_LENGTH, cluster_start_addresses, cluster_lengths, 5);
 
     assert(time_in_mins == 7);
-
+    */
 	return 0;
 }
