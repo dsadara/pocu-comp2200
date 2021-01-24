@@ -27,9 +27,9 @@ int place_stone(const color_t color, const size_t row, const size_t col);
 
 void init_board(void);
 
-size_t count_horizontal_chain_score(const color_t color, const size_t row);
+size_t count_horizontal_chain_score(const color_t color, const size_t row, const size_t col);
 
-size_t count_vertical_chain_score(const color_t color, const size_t col);
+size_t count_vertical_chain_score(const color_t color, const size_t row, const size_t col);
 
 size_t get_score_per_stone(size_t stone_sum);
 

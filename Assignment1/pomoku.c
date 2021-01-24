@@ -5,7 +5,7 @@ size_t g_board_height = 15;
 size_t g_player0_score = 0;
 size_t g_player1_score = 0;
 int g_board[20][20];
-
+/*
 size_t g_horizontal_score_before_black;
 size_t g_horizontal_score_before_white;
 size_t g_vertical_score_before_black;
@@ -14,7 +14,7 @@ size_t g_left_diagonal_score_before_black;
 size_t g_left_diagonal_score_before_white;
 size_t g_right_diagonal_score_before_black;
 size_t g_right_diagonal_score_before_white;
-
+*/
 void init_game(void)
 {
     g_board_width = 15;
@@ -24,7 +24,7 @@ void init_game(void)
 
     g_player0_score = 0;
     g_player1_score = 0;
-
+    /*
     g_horizontal_score_before_white = 0;
     g_horizontal_score_before_black = 0;
     g_vertical_score_before_black = 0;
@@ -33,6 +33,7 @@ void init_game(void)
     g_left_diagonal_score_before_white = 0;
     g_right_diagonal_score_before_black = 0;
     g_right_diagonal_score_before_white = 0;
+    */
 }
 
 size_t get_row_count(void)
@@ -82,12 +83,13 @@ int is_placeable(const size_t row, const size_t col)
 }
 
 int place_stone(const color_t color, const size_t row, const size_t col)
-{
+{   
+    /*
     size_t horizontal_score_temp;
     size_t vertical_score_temp;
     size_t left_diagonal_score_temp;
     size_t right_diagonal_score_temp;
-
+    */
     if (!is_placeable(row, col)) {
         return FALSE;
     }
@@ -96,39 +98,53 @@ int place_stone(const color_t color, const size_t row, const size_t col)
 
     if (color == COLOR_BLACK) {
 
-        horizontal_score_temp = count_horizontal_chain_score(COLOR_BLACK, row);
+        g_player0_score += count_horizontal_chain_score(COLOR_BLACK, row, col);
+        g_player0_score += count_vertical_chain_score(COLOR_BLACK, row, col);
+        g_player0_score += count_left_diagonal_chain_score(COLOR_BLACK, row, col);
+        g_player0_score += count_right_diagonal_chain_score(COLOR_BLACK, row, col);
+        /*
+        horizontal_score_temp = count_horizontal_chain_score(COLOR_BLACK, row, col);
+        printf("horizontal_score_temp: %zd\n", horizontal_score_temp);
         if (horizontal_score_temp != g_horizontal_score_before_black) {
             g_horizontal_score_before_black = horizontal_score_temp;
             g_player0_score += g_horizontal_score_before_black;
         }
 
-        vertical_score_temp = count_vertical_chain_score(COLOR_BLACK, col);
+        vertical_score_temp = count_vertical_chain_score(COLOR_BLACK, row, col);
+        printf("vertical_score_temp: %zd\n", vertical_score_temp); 
         if (vertical_score_temp != g_vertical_score_before_black) {
             g_vertical_score_before_black = vertical_score_temp;
             g_player0_score += g_vertical_score_before_black;
         }
 
         left_diagonal_score_temp = count_left_diagonal_chain_score(COLOR_BLACK, row, col);
+        printf("left_diagonal_score_temp: %zd\n", left_diagonal_score_temp);
         if (left_diagonal_score_temp != g_left_diagonal_score_before_black) {
             g_left_diagonal_score_before_black = left_diagonal_score_temp;
             g_player0_score += g_left_diagonal_score_before_black;
         }
 
         right_diagonal_score_temp = count_right_diagonal_chain_score(COLOR_BLACK, row, col);
+        printf("right_diagonal_score_temp: %zd\n", right_diagonal_score_temp);
         if (right_diagonal_score_temp != g_right_diagonal_score_before_black) {
             g_right_diagonal_score_before_black = right_diagonal_score_temp;
             g_player0_score += g_right_diagonal_score_before_black;
         }
-
+        */
     } else if (color == COLOR_WHITE) {
-
-        horizontal_score_temp = count_horizontal_chain_score(COLOR_WHITE, row);
+        g_player1_score += count_horizontal_chain_score(COLOR_WHITE, row, col);
+        g_player1_score += count_vertical_chain_score(COLOR_WHITE, row, col);
+        g_player1_score += count_left_diagonal_chain_score(COLOR_WHITE, row, col);
+        g_player1_score += count_right_diagonal_chain_score(COLOR_WHITE, row, col);
+        
+        /*
+        horizontal_score_temp = count_horizontal_chain_score(COLOR_WHITE, row, col);
         if (horizontal_score_temp != g_horizontal_score_before_white) {
             g_horizontal_score_before_white = horizontal_score_temp;
             g_player1_score += g_horizontal_score_before_white;
         }
 
-        vertical_score_temp = count_vertical_chain_score(COLOR_WHITE, col);
+        vertical_score_temp = count_vertical_chain_score(COLOR_WHITE, row, col);
         if (vertical_score_temp != g_vertical_score_before_white) {
             g_vertical_score_before_white = vertical_score_temp;
             g_player1_score += g_vertical_score_before_white;
@@ -145,6 +161,7 @@ int place_stone(const color_t color, const size_t row, const size_t col)
             g_right_diagonal_score_before_white = right_diagonal_score_temp;
             g_player1_score += g_right_diagonal_score_before_white;
         }
+        */
     } else {
         return FALSE;
     }
@@ -162,7 +179,7 @@ void init_board(void)
         }
     }
 }
-
+/*
 size_t count_horizontal_chain_score(const color_t color, const size_t row)
 {
     size_t i;
@@ -203,6 +220,101 @@ size_t count_vertical_chain_score(const color_t color, const size_t col)
     score_sum += get_score_per_stone(stone_sum);
     return score_sum;
 }
+*/
+
+size_t count_horizontal_chain_score(const color_t color, const size_t row, const size_t col)
+{
+    size_t score_sum = 0;
+    size_t stone_sum = 1;
+    size_t row_left = row;
+    size_t col_left = col - 1;
+    size_t row_right = row;
+    size_t col_right = col + 1;
+    int right = FALSE;
+    int left = FALSE;
+
+    if (check_boundary(row_left, col_left) && g_board[row_left][col_left] == color) {
+        left = TRUE;
+    }
+
+    if (check_boundary(row_right, col_right) && g_board[row_right][col_right] == color) {
+        right = TRUE;
+    }
+
+    while (right || left) {
+       /* printf("downright, upleft: %d, %d\n", downright, upleft); */
+        if (right) {
+            stone_sum++;
+            col_right++;
+            right = FALSE;
+        }
+
+        if (left) {
+            stone_sum++;
+            col_left--;
+            left = FALSE;
+        }
+
+        if (check_boundary(row_right, col_right) && g_board[row_right][col_right] == color) {
+            right = TRUE;
+        }
+
+        if (check_boundary(row_left, col_left) && g_board[row_left][col_left] == color) {
+            left = TRUE;
+        }
+    }
+    
+    score_sum = get_score_per_stone(stone_sum);
+
+    return score_sum;
+}
+
+size_t count_vertical_chain_score(const color_t color, const size_t row, const size_t col)
+{
+    size_t score_sum = 0;
+    size_t stone_sum = 1;
+    size_t row_up = row - 1;
+    size_t col_up = col;
+    size_t row_down = row + 1;
+    size_t col_down = col;
+    int down = FALSE;
+    int up = FALSE;
+
+    if (check_boundary(row_down, col_down) && g_board[row_down][col_down] == color) {
+        down = TRUE;
+    }
+
+    if (check_boundary(row_up, col_up) && g_board[row_up][col_up] == color) {
+        up = TRUE;
+    }
+
+    while (down || up) {
+       /* printf("downright, upleft: %d, %d\n", downright, upleft); */
+        if (down) {
+            stone_sum++;
+            row_down++;
+            down = FALSE;
+        }
+
+        if (up) {
+            stone_sum++;
+            row_up--;
+            up = FALSE;
+        }
+
+        if (check_boundary(row_down, col_down) && g_board[row_down][col_down] == color) {
+            down = TRUE;
+        }
+
+        if (check_boundary(row_up, col_up) && g_board[row_up][col_up] == color) {
+            up = TRUE;
+        }
+    }
+    
+    score_sum = get_score_per_stone(stone_sum);
+
+    return score_sum;
+}
 
 size_t get_score_per_stone(size_t stone_sum)
 {
@@ -213,7 +325,7 @@ size_t get_score_per_stone(size_t stone_sum)
     return stone_sum - 4;
 }
 
-
+/*
 size_t count_left_diagonal_chain_score(const color_t color, const size_t row, const size_t col)
 {
     size_t i;
@@ -257,7 +369,57 @@ size_t count_left_diagonal_chain_score(const color_t color, const size_t row, co
     score_sum += get_score_per_stone(stone_sum);
     return score_sum;
 }
+*/
 
+size_t count_left_diagonal_chain_score(const color_t color, const size_t row, const size_t col)
+{
+    size_t score_sum = 0;
+    size_t stone_sum = 1;
+    size_t row_upleft = row - 1;
+    size_t col_upleft = col - 1;
+    size_t row_downright = row + 1;
+    size_t col_downright = col + 1;
+    int downright = FALSE;
+    int upleft = FALSE;
+
+    if (check_boundary(row_downright, col_downright) && g_board[row_downright][col_downright] == color) {
+        downright = TRUE;
+    }
+
+    if (check_boundary(row_upleft, col_upleft) && g_board[row_upleft][col_upleft] == color) {
+        upleft = TRUE;
+    }
+
+    while (downright || upleft) {
+       /* printf("downright, upleft: %d, %d\n", downright, upleft); */
+        if (downright) {
+            stone_sum++;
+            row_downright++;
+            col_downright++;
+            downright = FALSE;
+        }
+
+        if (upleft) {
+            stone_sum++;
+            row_upleft--;
+            col_upleft--;
+            upleft = FALSE;
+        }
+
+        if (check_boundary(row_downright, col_downright) && g_board[row_downright][col_downright] == color) {
+            downright = TRUE;
+        }
+
+        if (check_boundary(row_upleft, col_upleft) && g_board[row_upleft][col_upleft] == color) {
+            upleft = TRUE;
+        }
+    }
+    
+    score_sum = get_score_per_stone(stone_sum);
+
+    return score_sum;
+}
+/*
 size_t count_right_diagonal_chain_score(const color_t color, const size_t row, const size_t col)
 {
     size_t i;
@@ -299,6 +461,55 @@ size_t count_right_diagonal_chain_score(const color_t color, const size_t row, c
         }
     }
     score_sum += get_score_per_stone(stone_sum);
+    return score_sum;
+}
+*/
+size_t count_right_diagonal_chain_score(const color_t color, const size_t row, const size_t col)
+{
+    size_t score_sum = 0;
+    size_t stone_sum = 1;
+    size_t row_downleft = row + 1;
+    size_t col_downleft = col - 1;
+    size_t row_upright = row - 1;
+    size_t col_upright = col + 1;
+    int downleft = FALSE;
+    int upright = FALSE;
+
+    if (check_boundary(row_downleft, col_downleft) && g_board[row_downleft][col_downleft] == color) {
+        downleft = TRUE;
+    }
+
+    if (check_boundary(row_upright, col_upright) && g_board[row_upright][col_upright] == color) {
+        upright = TRUE;
+    }
+
+    while (downleft || upright) {
+       /* printf("downright, upleft: %d, %d\n", downright, upleft); */
+        if (downleft) {
+            stone_sum++;
+            row_downleft++;
+            col_downleft--;
+            downleft = FALSE;
+        }
+
+        if (upright) {
+            stone_sum++;
+            row_upright--;
+            col_upright++;
+            upright = FALSE;
+        }
+
+        if (check_boundary(row_downleft, col_downleft) && g_board[row_downleft][col_downleft] == color) {
+            downleft = TRUE;
+        }
+
+        if (check_boundary(row_upright, col_upright) && g_board[row_upright][col_upright] == color) {
+            upright = TRUE;
+        }
+    }
+    
+    score_sum = get_score_per_stone(stone_sum);
+
     return score_sum;
 }
 
