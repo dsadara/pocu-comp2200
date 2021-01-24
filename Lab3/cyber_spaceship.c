@@ -37,9 +37,9 @@ const char* get_longest_safe_zone_or_null(const char* const cab_start_location, 
     }
 
     if (temp_longest_safe_area_length >= final_longest_safe_area_length) {
-            final_longest_safe_cluster_start_address = temp_longest_safe_cluster_start_address;
-            final_longest_safe_area_length = temp_longest_safe_area_length;
-        }
+        final_longest_safe_cluster_start_address = temp_longest_safe_cluster_start_address;
+        final_longest_safe_area_length = temp_longest_safe_area_length;
+    }
 
     if (final_longest_safe_area_length == 0) {
         final_longest_safe_cluster_start_address = temp_longest_safe_cluster_start_address;
