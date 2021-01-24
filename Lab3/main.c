@@ -31,14 +31,14 @@ int main(void)
     cluster_lengths[2] = 10U;
     cluster_lengths[3] = 13U;
     cluster_lengths[4] = 10U;
-*/
-    longest_safe_cluster_start_address = get_longest_safe_zone_or_null(cab_start_address, CAB_LENGTH, cluster_start_addresses, cluster_lengths, 5, out_longest_safe_area_length_p);
+    */
+    longest_safe_cluster_start_address = get_longest_safe_zone_or_null(cab_start_address, CAB_LENGTH, cluster_start_addresses, cluster_lengths, 2, out_longest_safe_area_length_p);
     printf("out_longest_safe_area_length: %zd\n", out_longest_safe_area_length);
-    assert(out_longest_safe_area_length == 20);
-    assert(longest_safe_cluster_start_address == cab_start_address + 14);
+    assert(out_longest_safe_area_length == 21);
+    printf("%p - %p = %p\n", (void*)longest_safe_cluster_start_address, (void*)cab_start_address, longest_safe_cluster_start_address - cab_start_address);
+    assert(longest_safe_cluster_start_address == cab_start_address + 13);
     /*
     time_in_mins = get_travel_time(cab_start_address, CAB_LENGTH, cluster_start_addresses, cluster_lengths, 5);
-
     assert(time_in_mins == 7);
     */
 	return 0;
