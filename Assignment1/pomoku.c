@@ -191,15 +191,6 @@ size_t count_vertical_chain_score(const color_t color, const size_t row, const s
     return score_sum;
 }
 
-size_t get_score_per_stone(size_t stone_sum)
-{
-    if (stone_sum < 5 || stone_sum > 20) {
-        return 0;
-    }
-
-    return stone_sum - 4;
-}
-
 size_t count_left_diagonal_chain_score(const color_t color, const size_t row, const size_t col)
 {
     size_t score_sum = 0;
@@ -294,6 +285,15 @@ size_t count_right_diagonal_chain_score(const color_t color, const size_t row, c
     score_sum = get_score_per_stone(stone_sum);
 
     return score_sum;
+}
+
+size_t get_score_per_stone(size_t stone_sum)
+{
+    if (stone_sum < 5 || stone_sum > 20) {
+        return 0;
+    }
+
+    return stone_sum - 4;
 }
 
 size_t check_boundary(const size_t row, const size_t col)
