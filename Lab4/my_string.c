@@ -36,7 +36,7 @@ int index_of(const char* str, const char* word)
     const char* p = str;
     int index_of_word = -1;
 
-    if (word == NULL) {
+    if (word_size == 0) {
         return -1;
     }
 
