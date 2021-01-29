@@ -36,8 +36,7 @@ int index_of(const char* str, const char* word)
     const char* p = str;
     int index_of_word = -1;
 
-    while(*p != '\0') {
-        printf("*p: %c, *word: %c\n", *p, *word);
+    while (*p != '\0') {
         if (*p == *word) {
             for (i = 0; i < word_size; i++) {
                 if(*(word + i) == *(p + i)) {
@@ -85,7 +84,7 @@ void reverse_by_words(char* str)
     reverse(p);
 }
 
-
+/*
 char* tokenize(char* str_or_null, const char* delims)
 {
     static char* token;
@@ -133,4 +132,59 @@ char* tokenize(char* str_or_null, const char* delims)
     printf("token: %c\n", *token); 
 
     return temp_token;
+}
+*/
+
+char* tokenize(char* str_or_null, const char* delims)
+{
+    static size_t str_length;
+    size_t i;
+    size_t j;
+    static char* token;
+    char* token_returning;
+    
+    if (str_or_null != NULL) {
+        size_t delims_length;
+        token = str_or_null;
+        delims_length = my_strlen(delims, "\0");
+        str_length = my_strlen(token, "\0");
+        for (i = 0; i < delims_length; i++) {
+            for (j = 0; j < str_length; j++) {
+                if (token[j] == delims[i]) {
+                    token[j] = 0;
+                }
+            }
+        }
+    }
+
+    if (token == NULL) {
+        return NULL;
+    }
+
+    /*
+    if (move_count > str_length - 1) {
+        printf("movecount > str_length\n");
+        return NULL;
+    }
+    */
+    while (*token == '\0') {
+        token++;
+    }
+    token_returning = token;
+    
+    while (*token != '\0') {
+        token++;
+    }
+
+    return token_returning;
+}
+
+char* reverse_tokenize(char* str_or_null, const char* delims)
+{
+    char* token;
+
+    token = tokenize(str_or_null, delims);
+    reverse(token);
+
+    return token;
 }
