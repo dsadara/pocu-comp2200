@@ -65,7 +65,7 @@ int print_receipt(const char* filename, time_t timestamp)
     fprintf(stream, "Charles' Seafood\n");
     fprintf(stream, "--------------------------------------------------\n");
     fprintf(stream, "%04d-%02d-%02d %02d:%02d:%02d                          %05zd\n",
-    local->tm_year + 1900, local->tm_mon + 1, local->tm_mday, local->tm_hour - 9, local->tm_min, local->tm_sec, g_order_num);
+    local->tm_year + 1900, local->tm_mon + 1, local->tm_mday, local->tm_hour, local->tm_min, local->tm_sec, g_order_num);
     fprintf(stream, "--------------------------------------------------\n");
 
     for (i = 0; i < g_item_num; i++) {
@@ -81,7 +81,7 @@ int print_receipt(const char* filename, time_t timestamp)
     if (g_tip != 0) {
         fprintf(stream, "                              Tip%17.2f\n", g_tip);
     }
-    
+
     fprintf(stream, "                              Tax%17.2f\n", tax);
     fprintf(stream, "                            Total%17.2f\n", sub_total + g_tip + tax);
     fprintf(stream, "\n");
