@@ -16,7 +16,7 @@ int main(void)
     assert(TRUE == add_item("Tuna sashimi", 15.42));
     assert(TRUE == add_item("Unagi soup", 25.48));
     assert(TRUE == add_item("Nestea ice tea", 5.99));
-    assert(TRUE == add_item("Chocolate brownie fudge", 8.99));
+    assert(TRUE == add_item("Chocolate brownie fudgedasdsadasdasdasdsadasdasdasdasdasdasdasdasdasdasdasdasdasdasdwqdwasdqwedqwdasdasdsa", 8.99));
 
     assert(FALSE == add_item("This won't get added lol", 2.55));
 

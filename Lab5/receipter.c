@@ -1,6 +1,6 @@
 #include "receipter.h"
 
-char g_items[10][26];
+char g_items[10][ITEM_STR_LENGTH + 1];
 double g_price[10] = { 0, };
 double g_tip = 0;
 char g_message[80];
@@ -9,11 +9,12 @@ size_t g_order_num = 0;
 
 int add_item(const char* name, double price)
 {
-    if (strlen(name) > 25 || price > 999.99 || g_item_num >= 10) {
+    if (price > 999.99 || g_item_num >= 10) {
         return FALSE;
     }
 
-    strcpy(g_items[g_item_num], name);
+    strncpy(g_items[g_item_num], name, ITEM_STR_LENGTH);
+    g_items[g_item_num][ITEM_STR_LENGTH] = '\0';
     g_price[g_item_num] = price;
     g_item_num++;
 
@@ -64,8 +65,7 @@ int print_receipt(const char* filename, time_t timestamp)
 
     fprintf(stream, "Charles' Seafood\n");
     fprintf(stream, "--------------------------------------------------\n");
-    fprintf(stream, "%04d-%02d-%02d %02d:%02d:%02d                          %05zd\n",
-    local->tm_year + 1900, local->tm_mon + 1, local->tm_mday, local->tm_hour, local->tm_min, local->tm_sec, g_order_num);
+    fprintf(stream, "%04d-%02d-%02d %02d:%02d:%02d                          %05zd\n", local->tm_year + 1900, local->tm_mon + 1, local->tm_mday, local->tm_hour, local->tm_min, local->tm_sec, g_order_num);
     fprintf(stream, "--------------------------------------------------\n");
 
     for (i = 0; i < g_item_num; i++) {
