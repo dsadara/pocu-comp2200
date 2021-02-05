@@ -34,16 +34,16 @@ void set_message(const char* message)
 {
     size_t length = strlen(message);
     char null_char = '\0';
-    if (length > 75) {
-        return;
-    } else if (length > 50) {
-        strcpy(g_message, message);
+ 
+    strncpy(g_message, message, MESSAGE_LENGTH);
+    g_message[MESSAGE_LENGTH - 1];  
+
+    if (length > 50) {
         memmove(g_message + 50, g_message + 49, strlen(g_message + 49));
         memmove(g_message + 49, &null_char, 1);
         return;
     }
 
-    strcpy(g_message, message);
 }
 
 int print_receipt(const char* filename, time_t timestamp)

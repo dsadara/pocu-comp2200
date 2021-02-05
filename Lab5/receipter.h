@@ -9,6 +9,7 @@
 #define TRUE (1)
 #define FALSE (0)
 #define ITEM_STR_LENGTH (25)
+#define MESSAGE_LENGTH (75)
 
 size_t my_strlen(const char* str, const char* delims);
 
