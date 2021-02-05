@@ -3,7 +3,7 @@
 char g_items[10][ITEM_STR_LENGTH + 1];
 double g_price[10] = { 0, };
 double g_tip = 0;
-char g_message[80];
+char g_message[MESSAGE_LENGTH + 1];
 size_t g_item_num = 0;
 size_t g_order_num = 0;
 
@@ -32,18 +32,13 @@ void set_tip(double tip)
 
 void set_message(const char* message)
 {
-    size_t length = strlen(message);
-    char null_char = '\0';
- 
     strncpy(g_message, message, MESSAGE_LENGTH);
-    g_message[MESSAGE_LENGTH - 1];  
+    g_message[MESSAGE_LENGTH] = '\0';  
 
-    if (length > 50) {
-        memmove(g_message + 50, g_message + 49, strlen(g_message + 49));
-        memmove(g_message + 49, &null_char, 1);
-        return;
+    if (strlen(g_message) > 50) {
+        memmove(g_message + 51, g_message + 50, strlen(g_message + 50));
+        g_message[50] = '\n';
     }
-
 }
 
 int print_receipt(const char* filename, time_t timestamp)

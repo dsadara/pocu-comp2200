@@ -13,16 +13,16 @@ int main(void)
     assert(TRUE == add_item("Deep fried scallops", 7.36));
     assert(TRUE == add_item("Tacoyaki", 6.89));
     assert(TRUE == add_item("Salmon sashimi", 16.54));
-    assert(TRUE == add_item("Tuna sashimi", 15.42));
-    assert(TRUE == add_item("Unagi soup", 25.48));
-    assert(TRUE == add_item("Nestea ice tea", 5.99));
-    assert(TRUE == add_item("Chocolate brownie fudgedasdsadasdasdasdsadasdasdasdasdasdasdasdasdasdasdasdasdasdasdwqdwasdqwedqwdasdasdsa", 8.99));
+    assert(TRUE == add_item("01234567890123456789012345678901234567890123456789012345678901234567890123456789", 15.42));
+    assert(TRUE == add_item("012345678901234567890123456789012345678901234567890", 25.48));
+    assert(TRUE == add_item("01234567890123456789012345678901234567890123456789", 5.99));
+    assert(TRUE == add_item("01234567890123456789012345678901234567890123456789012345", 8.99));
 
     assert(FALSE == add_item("This won't get added lol", 2.55));
 
     set_tip(20.55);
 
-    set_message("Thanks for dining with us!");
+    set_message("01234567890123456789012345678901234567890123456789012345678901234567890123456789");
 
     assert(TRUE == print_receipt("receipt0.txt", time));
 
@@ -39,6 +39,8 @@ int main(void)
     assert(TRUE == add_item("Strawberry Shortcake", 15));
 
     set_tip(5);
+
+    set_message("0123456789012345678901234567890123456789012345678901234");
 
     assert(TRUE == print_receipt("receipt3.txt", time));
 
