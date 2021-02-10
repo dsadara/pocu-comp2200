@@ -26,7 +26,6 @@ int get_character(const char* filename, character_v3_t* out_character)
     }
 
     if (delims_count == 0) {
-        printf("delims_count: %d\n", delims_count);
         deserialize_v3(stream, out_character);
         version = 3;
     }
@@ -54,15 +53,9 @@ void deserialize_v3(FILE* stream, character_v3_t* out_character)
     size_t i;
     size_t line_length;
     
-    fseek(stream, 0, SEEK_SET); /* 테스트중에 스트림 초기화가 안되서 사용중 */
+    rewind(stream); /* 테스트중에 스트림 초기화가 안되서 사용중 */
+
     line_length = get_line_length(stream);
-    printf("line length: %d\n", line_length);
-    result = fseek(stream, (line_length + 2) * sizeof(char), SEEK_SET);
-    if (result != 0) {
-        perror("error while seeking");
-        return;
-    }
-    
     fgets(buffer, line_length, stream);
     remove_column(buffer);
     sscanf(buffer, "%s%d%d%d%d%d%d%d%d%d%d%d%d%zd",
@@ -76,13 +69,13 @@ void deserialize_v3(FILE* stream, character_v3_t* out_character)
     if (minion_count == 0) {
         return;
     }
-    printf("next char: %c\n", fgetc(stream));
-
-    /*
+    line_length = get_line_length(stream);
     for (i = 0; i < minion_count; i++) {
-        
+        fgets(buffer, line_length, stream);
+        remove_column(buffer);
+        sscanf(buffer, "%s%d%d%d", out_character->minions[i].name, &out_character->minions[i].health,
+        &out_character->minions[i].strength, &out_character->minions[i].defence);
     }
-    */
 }
 
 void remove_column(char* buffer)

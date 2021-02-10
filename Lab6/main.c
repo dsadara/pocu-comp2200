@@ -69,9 +69,9 @@ int main(void)
     assert(flash_v3.elemental_resistance.lightning == 10);
 
     version = get_character("Wonderwoman_v3.txt", &wonderwoman_v3);
+    
     printf("version: %d\n", version);
     assert(version == 3);
-    /*
     assert(strcmp(wonderwoman_v3.name, "Wonderwoman_v3") == 0);
     assert(wonderwoman_v3.level == 55);
     assert(wonderwoman_v3.health == 320);
@@ -96,6 +96,6 @@ int main(void)
     assert(wonderwoman_v3.minions[1].health == 45);
     assert(wonderwoman_v3.minions[1].strength == 20);
     assert(wonderwoman_v3.minions[1].defence == 4);
-*/
+
 	return 0;
 }
