@@ -11,11 +11,11 @@ int main(void)
     character_v3_t wonderwoman_v3;
     int version;
 
-/*
+
     version = get_character("Superman_v1.txt", &superman_v1);
     printf("version: %d\n", version);
     assert(version == 1);
-    
+    printf("name:%s\n", superman_v1.name);
     assert(strcmp(superman_v1.name, "player_15") == 0);
     assert(superman_v1.level == 10);
     assert(superman_v1.health == 100);
@@ -34,6 +34,7 @@ int main(void)
     version = get_character("Batman_v2.txt", &batman_v2);
     printf("version: %d\n", version);
     assert(version == 2);
+    printf("name: %s\n", batman_v2.name);
     assert(strcmp(batman_v2.name, "Batman_v2") == 0);
     assert(batman_v2.level == 25);
     assert(batman_v2.health == 130);
@@ -48,7 +49,7 @@ int main(void)
     assert(batman_v2.elemental_resistance.fire == 3);
     assert(batman_v2.elemental_resistance.cold == 3);
     assert(batman_v2.elemental_resistance.lightning == 3);
-*/
+
     version = get_character("Flash_v3.txt", &flash_v3);
     
     printf("version: %d\n", version);

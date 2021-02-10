@@ -14,14 +14,15 @@ int get_character(const char* filename, character_v3_t* out_character)
             delims_count++;
         }
     }
+    rewind(stream);
 
     if (delims_count == 7) {
-        printf("delims_count: %d\n", delims_count);
+        deserialize_v1_to_v3(stream, out_character);
         version = 1;
     }
 
     if (delims_count == 18) {
-        printf("delims_count: %d\n", delims_count);
+        deserialize_v2_to_v3(stream, out_character);
         version = 2;
     }
 
@@ -33,27 +34,53 @@ int get_character(const char* filename, character_v3_t* out_character)
 
     return version;
 }
-/*
+
 void deserialize_v1_to_v3(FILE* stream, character_v3_t* out_character)
 {
+    char buffer[256];
+    char* token;
+    size_t i;
 
+    fgets(buffer, 256, stream);
+
+    token = strtok(buffer, ",:");
+    match_key(token, out_character);
+    for(i = 0; i < 7; i++) {
+        token = strtok(NULL, ",:");
+        match_key(token, out_character);
+    }
+    out_character->minion_count = 0;
 }
 
 void deserialize_v2_to_v3(FILE* stream, character_v3_t* out_character)
 {
+    size_t line_length;
+    char buffer[256];
+    unsigned int magic_resistance;
 
+    line_length = get_line_length(stream);
+    
+    fgets(buffer, line_length, stream);
+    remove_comma(buffer);
+
+    sscanf(buffer, "%s%d%d%d%d%d%d%d%d%d", out_character->name, &out_character->level, &out_character->strength,
+    &out_character->dexterity, &out_character->intelligence, &out_character->armour, 
+    &out_character->evasion, &magic_resistance, &out_character->health, &out_character->mana);
+
+    out_character->leadership = out_character->level / 10;
+    out_character->minion_count = 0;
+    out_character->elemental_resistance.fire = magic_resistance / 3;
+    out_character->elemental_resistance.cold = magic_resistance / 3;
+    out_character->elemental_resistance.lightning = magic_resistance / 3;
+    
 }
-*/
+
 void deserialize_v3(FILE* stream, character_v3_t* out_character)
 {
-    char buffer[4096];
-    char tmp;
-    int result;
+    char buffer[512];
     size_t minion_count;
     size_t i;
     size_t line_length;
-    
-    rewind(stream); /* 테스트중에 스트림 초기화가 안되서 사용중 */
 
     line_length = get_line_length(stream);
     fgets(buffer, line_length, stream);
@@ -98,4 +125,82 @@ size_t get_line_length(FILE* stream)
     }
 
     return length_count;
+}
+
+void remove_comma(char* buffer)
+{
+    char* character = buffer;
+
+    while(*character++ != '\0') {
+        if (*character == ',') {
+            *character = ' ';
+        }
+    }
+}
+
+void match_key(char* token, character_v3_t* out_character)
+{
+    unsigned int id;
+    unsigned int dex;
+    unsigned int armour;
+    unsigned int magic_resistance;
+    unsigned int level;
+
+    if (strcmp(token, "lvl") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &level);
+        out_character->level = level;
+        out_character->leadership = level / 10;
+        return;
+    }
+
+    if (strcmp(token, "intel") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &out_character->intelligence);
+        return;
+    }
+
+    if (strcmp(token, "str") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &out_character->strength);
+        return;
+    }
+
+    if (strcmp(token, "dex") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &dex);
+        out_character->dexterity = dex;
+        out_character->evasion = dex / 2;
+        return;
+    }
+
+    if (strcmp(token, "def") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &armour);
+        out_character->armour = armour;
+        magic_resistance = armour / 4;
+        out_character->elemental_resistance.fire = magic_resistance / 3;
+        out_character->elemental_resistance.cold = magic_resistance / 3;
+        out_character->elemental_resistance.lightning = magic_resistance / 3;
+        return;
+    }
+
+    if (strcmp(token, "id") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &id);
+        sprintf(out_character->name, "player_%d", id);
+        return;
+    }
+
+    if (strcmp(token, "hp") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &out_character->health);
+        return;
+    }
+
+    if (strcmp(token, "mp") == 0) {
+        token = strtok(NULL, ",:");
+        sscanf(token, "%d", &out_character->mana);
+        return;
+    }
 }
