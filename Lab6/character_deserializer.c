@@ -64,7 +64,7 @@ void deserialize_v2_to_v3(FILE* stream, character_v3_t* out_character)
     remove_comma(buffer);
 
     sscanf(buffer, "%s%d%d%d%d%d%d%d%d%d", out_character->name, &out_character->level, &out_character->strength, &out_character->dexterity, &out_character->intelligence, &out_character->armour, &out_character->evasion, &magic_resistance, &out_character->health, &out_character->mana);
-
+    out_character->name[50] = '\0';
     out_character->leadership = out_character->level / 10;
     out_character->minion_count = 0;
     out_character->elemental_resistance.fire = magic_resistance / 3;
@@ -84,6 +84,7 @@ void deserialize_v3(FILE* stream, character_v3_t* out_character)
     fgets(buffer, line_length, stream);
     remove_column(buffer);
     sscanf(buffer, "%s%d%d%d%d%d%d%d%d%d%d%d%d%zd", out_character->name, &out_character->level, &out_character->health, &out_character->mana, &out_character->strength, &out_character->dexterity, &out_character->intelligence, &out_character->armour, &out_character->evasion, &out_character->elemental_resistance.fire, &out_character->elemental_resistance.cold, &out_character->elemental_resistance.lightning, &out_character->leadership, &out_character->minion_count);
+    out_character->name[50] = '\0';
 
     minion_count = out_character->minion_count;
     if (minion_count == 0) {
@@ -94,6 +95,7 @@ void deserialize_v3(FILE* stream, character_v3_t* out_character)
         fgets(buffer, line_length, stream);
         remove_column(buffer);
         sscanf(buffer, "%s%d%d%d", out_character->minions[i].name, &out_character->minions[i].health, &out_character->minions[i].strength, &out_character->minions[i].defence);
+        out_character->minions[i].name[50] = '\0';
     }
 }
 
