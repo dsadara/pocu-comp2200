@@ -25,6 +25,6 @@ int preprocess_escape(char* set_buffer);
 
 int preprocess_scope(char* set_buffer);
 
-void add_char(char* set_buffer, size_t index, size_t set_size, char ch);
+void add_char(char* set_buffer, size_t set_size, char ch, const size_t pos);
 
 #endif /* TRANSLATE_H */

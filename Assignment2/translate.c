@@ -31,13 +31,9 @@ int translate(int argc, const char** argv)
     strncpy(set2_buffer, argv[set2_index], 511);
     set2_buffer[511] = '\0';
 
-    printf("set1 set2 before: %s, %s\n", set1_buffer, set2_buffer);
-
     error_code = preprocess_escape(set1_buffer);
     error_code = preprocess_scope(set1_buffer);
     preprocess_basic(set1_buffer, set2_buffer);
-
-    printf("set1 set2 after: %s, %s\n", set1_buffer, set2_buffer);
 
     set1_size = strlen(set1_buffer);
     set2_size = strlen(set2_buffer);
@@ -179,18 +175,46 @@ int preprocess_scope(char* set_buffer)
     char start_char;
     char end_char;
     error_code_t error_code = 0;
+    int is_next_specifier_not_valid = FALSE;
     set_size = strlen(set_buffer);
-
-    
+    /*
+    for (i = 0; set_buffer[i] != '\0'; i++) {
+        if (set_buffer[i] == '-' && set_buffer[i + 2] == '-') {
+            delete_char(set_buffer, i + 2, set_size);
+            set_size--;
+        }
+        if (set_buffer[i] == '-' && set_buffer[i + 1] == '-') {
+            delete_char(set_buffer, i + 1, set_size);
+            set_size--;
+        }
+    }
+    */
     for (i = 0; set_buffer[i] != '\0'; i++) {
         if (set_buffer[i] == '-') {
+            if (i == 0 || i == set_size - 1) {
+                continue;
+            }
+            if (is_next_specifier_not_valid) {
+                is_next_specifier_not_valid = FALSE;
+                continue;
+            }
+            if (set_buffer[i + 2] == '-') {
+                is_next_specifier_not_valid = TRUE;
+            }
             delete_char(set_buffer, i, set_size);
             set_size--;
-            i--;
+            i--; 
             start_char = set_buffer[i];
             end_char = set_buffer[i + 1];
-            for (j = start_char; j < (size_t)(end_char - 1); j++) {
-                add_char(set_buffer, i, set_size, start_char + 1);
+            if (start_char > end_char) {
+                error_code = ERROR_CODE_INVALID_RANGE;
+                return error_code;
+            } else if (start_char == end_char) {
+                delete_char(set_buffer, i, set_size);
+                set_size--;
+            }
+            for (j = start_char + 1; j < (size_t)end_char; j++) {
+                add_char(set_buffer, set_size, j, i + 1);
                 set_size++;
                 i++;
             }
@@ -199,12 +223,12 @@ int preprocess_scope(char* set_buffer)
     return error_code;
 }
 
-void add_char(char* set_buffer, size_t index, size_t set_size, char ch)
+void add_char(char* set_buffer, size_t set_size, char ch, const size_t pos)
 {
     size_t i;
 
-    for (i = set_size - 1; i > index; i--) {
+    for (i = set_size; i > pos; i--) {
         set_buffer[i] = set_buffer[i - 1];
     }
-    set_buffer[index] = ch;
+    set_buffer[pos] = ch;
 }
