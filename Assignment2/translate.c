@@ -22,14 +22,10 @@ int translate(int argc, const char** argv)
     strncpy(set2_buffer, argv[2], 511);
     set2_buffer[511] = '\0';
 
+    preprocess_basic(set1_buffer, set2_buffer);
+
     set1_size = strlen(set1_buffer);
     set2_size = strlen(set2_buffer);
-
-    if (set1_size > set2_size) {
-        for (i = 0; i < set1_size - set2_size; i++) {
-            set2_buffer[set2_size + i] = set2_buffer[set2_size - 1];
-        }
-    }
 
     while (scanf("%c", &ch) == 1) {
         for (i = 0; i < set1_size; i++) {
@@ -47,4 +43,29 @@ int translate(int argc, const char** argv)
     }
 
     return error_code;
+}
+
+void preprocess_basic(char* set1_buffer, char* set2_buffer)
+{
+    size_t i = 0;
+    size_t j = 1;
+    size_t set1_size;
+    size_t set2_size;
+
+    set1_size = strlen(set1_buffer);
+    set2_size = strlen(set2_buffer);
+
+    if (set1_size > set2_size) {
+        for (i = 0; i < set1_size - set2_size; i++) {
+            set2_buffer[set2_size + i] = set2_buffer[set2_size - 1];
+        }
+    }
+
+    while (set1_buffer[i] != '\0') {
+        while(set1_buffer[j] != '\0') {
+            if (set1_buffer[i] == set1_buffer[j]) {
+                
+            }
+        }
+    }
 }
