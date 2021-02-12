@@ -17,4 +17,14 @@ typedef enum error_code {
 
 int translate(int argc, const char** argv);
 
+void preprocess_basic(char* set1_buffer, char* set2_buffer);
+
+void delete_char(char* set_buffer, size_t index, size_t set_size);
+
+int preprocess_escape(char* set_buffer);
+
+int preprocess_scope(char* set_buffer);
+
+void add_char(char* set_buffer, size_t index, size_t set_size, char ch);
+
 #endif /* TRANSLATE_H */
