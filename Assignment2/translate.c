@@ -42,9 +42,21 @@ int translate(int argc, const char** argv)
     set2_buffer[511] = '\0';
 
     error_code = preprocess_escape(set1_buffer);
+    if (error_code != 0) {
+        return error_code;
+    }
     error_code = preprocess_escape(set2_buffer);
+    if (error_code != 0) {
+        return error_code;
+    }
     error_code = preprocess_scope(set1_buffer);
+    if (error_code != 0) {
+        return error_code;
+    }
     error_code = preprocess_scope(set2_buffer);
+    if (error_code != 0) {
+        return error_code;
+    }
     preprocess_basic(set1_buffer, set2_buffer);
 
     set1_size = strlen(set1_buffer);
@@ -123,7 +135,6 @@ int preprocess_escape(char* set_buffer)
     error_code_t error_code = 0;
 
     set_size = strlen(set_buffer);
-
     for (i = 0; set_buffer[i] != '\0'; i++) {
         if (set_buffer[i] == 92) {
 
@@ -169,6 +180,9 @@ int preprocess_escape(char* set_buffer)
                 delete_char(set_buffer, i + 1, set_size);
                 break;
             default:
+                delete_char(set_buffer, i, set_size);
+                set_size--;
+                delete_char(set_buffer, i, set_size);
                 error_code = ERROR_CODE_INVALID_FORMAT;
                 break;
             }
@@ -187,18 +201,7 @@ int preprocess_scope(char* set_buffer)
     error_code_t error_code = 0;
     int is_next_specifier_not_valid = FALSE;
     set_size = strlen(set_buffer);
-    /*
-    for (i = 0; set_buffer[i] != '\0'; i++) {
-        if (set_buffer[i] == '-' && set_buffer[i + 2] == '-') {
-            delete_char(set_buffer, i + 2, set_size);
-            set_size--;
-        }
-        if (set_buffer[i] == '-' && set_buffer[i + 1] == '-') {
-            delete_char(set_buffer, i + 1, set_size);
-            set_size--;
-        }
-    }
-    */
+   
     for (i = 0; set_buffer[i] != '\0'; i++) {
         if (set_buffer[i] == '-') {
             if (i == 0 || i == set_size - 1) {
