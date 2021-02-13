@@ -44,8 +44,7 @@ int translate(int argc, const char** argv)
                 printf("%c", set2_buffer[i]);
                 is_printed = TRUE;
             }
-            if (is_case_ignored && (ch + 32) == set1_buffer[i])
-            {
+            if (is_case_ignored && (ch + 32) == set1_buffer[i]) {
                 printf("%c", set2_buffer[i]);
                 is_printed = TRUE;
             }
@@ -116,8 +115,7 @@ int preprocess_escape(char* set_buffer)
     for (i = 0; set_buffer[i] != '\0'; i++) {
         if (set_buffer[i] == 92) {
 
-            switch (set_buffer[i + 1])
-            {
+            switch (set_buffer[i + 1]) {
             case 'a':
                 set_buffer[i] = '\a';
                 delete_char(set_buffer, i + 1, set_size);
