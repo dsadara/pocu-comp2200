@@ -14,10 +14,20 @@ int translate(int argc, const char** argv)
     int is_case_ignored = FALSE;
     error_code_t error_code = 0;
 
+    if (argc == 1 || argc == 2) {
+        error_code = ERROR_CODE_WRONG_ARGUMENTS_NUMBER;
+        return error_code;
+    }
+
     if (argc == 4) {
-        set1_index = 2;
-        set2_index = 3;
-        is_case_ignored = TRUE;
+        if (strcmp(argv[1], "-i") == 0) {
+            set1_index = 2;
+            set2_index = 3;
+            is_case_ignored = TRUE;
+        } else {
+            error_code = ERROR_CODE_INVALID_FLAG;
+            return error_code;
+        }
     }
 
     if (strlen(argv[set1_index]) > 511 || strlen(argv[set2_index]) > 511) {
@@ -32,7 +42,9 @@ int translate(int argc, const char** argv)
     set2_buffer[511] = '\0';
 
     error_code = preprocess_escape(set1_buffer);
+    error_code = preprocess_escape(set2_buffer);
     error_code = preprocess_scope(set1_buffer);
+    error_code = preprocess_scope(set2_buffer);
     preprocess_basic(set1_buffer, set2_buffer);
 
     set1_size = strlen(set1_buffer);
