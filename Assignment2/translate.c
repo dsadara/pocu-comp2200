@@ -167,16 +167,16 @@ int preprocess_escape(char* set_buffer)
                 set_buffer[i] = '\r';
                 delete_char(set_buffer, i + 1, set_size);
                 break;
-            case 34:
-                set_buffer[i] = 34;
+            case '\"':
+                set_buffer[i] = '\"';
                 delete_char(set_buffer, i + 1, set_size);
                 break;
-            case 39:
-                set_buffer[i] = 39;
+            case '\'':
+                set_buffer[i] = '\'';
                 delete_char(set_buffer, i + 1, set_size);
                 break;
-            case 92:
-                set_buffer[i] = 92;
+            case '\\':
+                set_buffer[i] = '\\';
                 delete_char(set_buffer, i + 1, set_size);
                 break;
             default:
