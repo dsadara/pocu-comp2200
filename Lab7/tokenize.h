@@ -5,7 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define _CRT_SECURE_NO_WARNINGS
 #define LINE_LENGTH (2048)
 
 char** tokenize_malloc(const char* str, const char* delim);
