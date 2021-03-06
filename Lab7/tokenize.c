@@ -7,7 +7,8 @@ char** tokenize_malloc(const char* str, const char* delim)
     size_t str_length;
     size_t delim_num;
     size_t token_num;
-    char buffer[LINE_LENGTH];
+    size_t line_length;
+    char* buffer;
     char* b;
     char** lines;
     const char* d;
@@ -15,9 +16,15 @@ char** tokenize_malloc(const char* str, const char* delim)
 
     d = delim;
     s = str;
+    line_length = 1024;
 
+    str_length = strlen(str);
+    while (str_length >= line_length) {
+        line_length *= 2;
+    }
+    buffer = malloc(line_length);
     strcpy(buffer, str);
-    str_length = strlen(buffer);
+
     delim_num = strlen(delim);
 
     for (i = 0; i < str_length; i++) {
@@ -55,7 +62,9 @@ char** tokenize_malloc(const char* str, const char* delim)
         }
     }
     lines[token_num] = NULL;
-
+    
+    free(buffer);
+    
     return lines;
 }
 

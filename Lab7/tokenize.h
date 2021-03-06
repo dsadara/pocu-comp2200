@@ -5,8 +5,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define LINE_LENGTH (2048)
-
 char** tokenize_malloc(const char* str, const char* delim);
 
 size_t trim_string(char* str, size_t str_length);
