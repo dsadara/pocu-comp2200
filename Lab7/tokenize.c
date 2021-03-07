@@ -15,10 +15,10 @@ char** tokenize_malloc(const char* str, const char* delim)
     const char* s;
 
     if (str[0] == '\0') {
-        return NULL;
+        lines = malloc(sizeof(char*));
+        lines[0] = NULL;
+        return lines;
     }
-
-    printf("str: %c, %d, %p", *str, *str, (void*)str);
 
     d = delim;
     s = str;
