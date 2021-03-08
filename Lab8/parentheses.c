@@ -82,7 +82,7 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
 
     free(my_stack);
 
-    qsort(parentheses, parentheses_pair_num, sizeof(parenthesis_t), compare);
+    qsort(parentheses, parentheses_pair_num, sizeof(parenthesis_t), comp);
 
     return parentheses_pair_num;
 }
@@ -113,7 +113,7 @@ int find_stack_element(parentheses_and_index_t* my_stack, size_t stack_element_c
     return stack_element_count;
 }
 
-int compare(const void *a, const void *b)  
+int comp(const void *a, const void *b)  
 {
     size_t num1 = ((parenthesis_t*)a)->opening_index;    
     size_t num2 = ((parenthesis_t*)b)->opening_index;   
