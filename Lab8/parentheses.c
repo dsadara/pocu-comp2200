@@ -1,5 +1,7 @@
 #include "parentheses.h"
 
+int comp(const void* a, const void* b);
+
 size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, const char* str)
 {
     const char* s = str;
@@ -13,9 +15,6 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
     my_stack = malloc(sizeof(parentheses_and_index_t) * max_size);
 
     while (*s != '\0') {
-        if (parentheses_pair_num >= max_size) {
-            break;
-        }
 
         if (*s == '{' || *s == '(' || *s == '[' || *s == '<') {
             if (stack_element_count >= max_size) {
@@ -79,8 +78,13 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
     }
 
     free(my_stack);
-
-    qsort(parentheses, parentheses_pair_num, sizeof(parenthesis_t), comp);
+    
+    if (parentheses_pair_num < max_size) {
+        qsort(parentheses, parentheses_pair_num, sizeof(parenthesis_t), comp);
+    } else {
+        qsort(parentheses, max_size, sizeof(parenthesis_t), comp);
+    }
+    
 
     return parentheses_pair_num;
 }
@@ -115,10 +119,13 @@ int comp(const void* a, const void* b)
     size_t num1 = ((parenthesis_t*)a)->opening_index;    
     size_t num2 = ((parenthesis_t*)b)->opening_index;   
 
-    if (num1 < num2)    
-        return -1;     
+    if (num1 < num2) {
+        return -1;
+    }     
     
-    if (num1 > num2)    
-        return 1;       
+    if (num1 > num2) {
+        return 1;
+    } 
+
     return 0;   
 }
