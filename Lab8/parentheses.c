@@ -34,16 +34,18 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
                 s++;
                 continue;
             }
+            printf("parenthesis %c in!! index:%d\n", *s, s - str);
             my_stack[stack_element_count].parentheses = *s;
             my_stack[stack_element_count++].stack_element_count = s - str;
         }
-
+        /*
         if (parenthesis_array_index >= max_size) {
             s++;
             continue;
         }
-
+        */
         if (*s == '}') {
+            printf("find %c..pair index:%d\n", *s, s - str);
             find_result = find_stack_element(my_stack, stack_element_count, '{');
             if (find_result != -1) {
                 parentheses[parenthesis_array_index].opening_index = my_stack[find_result].stack_element_count;
@@ -55,6 +57,7 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
             }
         }
         if (*s == ')') {
+            printf("find %c's pair.. index:%d\n", *s, s - str);
             find_result = find_stack_element(my_stack, stack_element_count, '(');
             if (find_result != -1) {
                 parentheses[parenthesis_array_index].opening_index = my_stack[find_result].stack_element_count;
@@ -66,6 +69,7 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
             }
         }
         if (*s == ']') {
+            printf("find %c..pair index:%d\n", *s, s - str);
             find_result = find_stack_element(my_stack, stack_element_count, '[');
             if (find_result != -1) {
                 parentheses[parenthesis_array_index].opening_index = my_stack[find_result].stack_element_count;
@@ -77,6 +81,7 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
             }
         }
         if (*s == '>') {
+            printf("find %c..pair index:%d\n", *s, s - str);
             find_result = find_stack_element(my_stack, stack_element_count, '<');
             if (find_result != -1) {
                 parentheses[parenthesis_array_index].opening_index = my_stack[find_result].stack_element_count;
@@ -90,9 +95,15 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
         s++;
     }
 
+   
+
     free(my_stack);
-    
+    printf("parenthesis_array_index:%d\n", parenthesis_array_index);
     qsort(parentheses, parenthesis_array_index, sizeof(parenthesis_t), comp);
+
+    if (parenthesis_array_index >= max_size) {
+        parenthesis_array_index = max_size;
+    }
 
     return parenthesis_array_index;
 }
