@@ -1,6 +1,20 @@
 #include "parentheses.h"
 
-int comp(const void* a, const void* b);
+int comp(const void* a, const void* b)  
+{
+    size_t num1 = ((parenthesis_t*)a)->opening_index;    
+    size_t num2 = ((parenthesis_t*)b)->opening_index;   
+
+    if (num1 < num2) {
+        return -1;
+    }     
+    
+    if (num1 > num2) {
+        return 1;
+    } 
+
+    return 0;   
+}
 
 size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, const char* str)
 {
@@ -8,7 +22,6 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
     parentheses_and_index_t* my_stack;
     size_t stack_element_count = 0;
     size_t parenthesis_array_index = 0;
-    size_t parentheses_pair_num = 0;
     size_t i;
     int find_result;
 
@@ -25,7 +38,7 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
             my_stack[stack_element_count++].stack_element_count = s - str;
         }
 
-        if (parentheses_pair_num >= max_size) {
+        if (parenthesis_array_index >= max_size) {
             s++;
             continue;
         }
@@ -39,7 +52,6 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
                 }
                 stack_element_count--;
                 parentheses[parenthesis_array_index++].closing_index = s - str;
-                parentheses_pair_num++;
             }
         }
         if (*s == ')') {
@@ -51,7 +63,6 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
                 }
                 stack_element_count--;
                 parentheses[parenthesis_array_index++].closing_index = s - str;
-                parentheses_pair_num++;
             }
         }
         if (*s == ']') {
@@ -63,7 +74,6 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
                 }
                 stack_element_count--;
                 parentheses[parenthesis_array_index++].closing_index = s - str;
-                parentheses_pair_num++;
             }
         }
         if (*s == '>') {
@@ -75,7 +85,6 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
                 }
                 stack_element_count--;
                 parentheses[parenthesis_array_index++].closing_index = s - str;
-                parentheses_pair_num++;
             }
         }
         s++;
@@ -83,9 +92,9 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
 
     free(my_stack);
     
-    qsort(parentheses, parentheses_pair_num, sizeof(parenthesis_t), comp);
+    qsort(parentheses, parenthesis_array_index, sizeof(parenthesis_t), comp);
 
-    return parentheses_pair_num;
+    return parenthesis_array_index;
 }
 
 
@@ -111,20 +120,4 @@ int find_stack_element(parentheses_and_index_t* my_stack, size_t stack_element_c
     }
 
     return stack_element_count;
-}
-
-int comp(const void* a, const void* b)  
-{
-    size_t num1 = ((parenthesis_t*)a)->opening_index;    
-    size_t num2 = ((parenthesis_t*)b)->opening_index;   
-
-    if (num1 < num2) {
-        return -1;
-    }     
-    
-    if (num1 > num2) {
-        return 1;
-    } 
-
-    return 0;   
 }
