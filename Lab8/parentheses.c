@@ -26,6 +26,7 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
         }
 
         if (parentheses_pair_num >= max_size) {
+            s++;
             continue;
         }
 
