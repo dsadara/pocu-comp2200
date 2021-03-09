@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "parentheses.h"
 
-#define PARENTHESES_MAX_SIZE (2)
+#define PARENTHESES_MAX_SIZE (50)
 int main(void)
 {
     parenthesis_t parentheses[PARENTHESES_MAX_SIZE];
@@ -13,11 +13,11 @@ int main(void)
 
     len = get_matching_parentheses(parentheses, PARENTHESES_MAX_SIZE, "{{{}}}");
     printf("len:%d\n", len);
-    /*assert(len == 3);*/
+    assert(len == 3);
 
     printf("opening_index:%d, closing_index:%d\n", parentheses[0].opening_index, parentheses[0].closing_index);
     printf("opening_index:%d, closing_index:%d\n", parentheses[1].opening_index, parentheses[1].closing_index);
-/*    printf("opening_index:%d, closing_index:%d\n", parentheses[2].opening_index, parentheses[2].closing_index); */
+    printf("opening_index:%d, closing_index:%d\n", parentheses[2].opening_index, parentheses[2].closing_index); 
     assert(parentheses[0].opening_index == 0);
     assert(parentheses[0].closing_index == 5);
 
@@ -25,13 +25,13 @@ int main(void)
     assert(parentheses[1].opening_index == 1);
     assert(parentheses[1].closing_index == 4);
 
-   /*
+   
     assert(parentheses[2].opening_index == 2);
     assert(parentheses[2].closing_index == 3);
-    */
-    /*
+    
+    
     len = get_matching_parentheses(parentheses, PARENTHESES_MAX_SIZE, " {]}[[i]{)))} ]");
-
+    printf("len:%d\n", len);
     assert(len == 4);
 
     assert(parentheses[0].opening_index == 1);
@@ -47,7 +47,7 @@ int main(void)
     assert(parentheses[3].closing_index == 12);
     
     len = get_matching_parentheses(parentheses, PARENTHESES_MAX_SIZE, "{this}(bracket;[](){[(><>)");
-
+    printf("len:%d\n", len);
     assert(len == 5);
 
     assert(parentheses[0].opening_index == 0);
@@ -64,6 +64,6 @@ int main(void)
 
     assert(parentheses[4].opening_index == 23);
     assert(parentheses[4].closing_index == 24);
-    */
+    
     return 0;
 }

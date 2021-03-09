@@ -24,7 +24,10 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
             my_stack[stack_element_count].parentheses = *s;
             my_stack[stack_element_count++].stack_element_count = s - str;
         }
-        
+
+        if (parentheses_pair_num >= max_size) {
+            continue;
+        }
 
         if (*s == '}') {
             find_result = find_stack_element(my_stack, stack_element_count, '{');
@@ -79,12 +82,7 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
 
     free(my_stack);
     
-    if (parentheses_pair_num < max_size) {
-        qsort(parentheses, parentheses_pair_num, sizeof(parenthesis_t), comp);
-    } else {
-        qsort(parentheses, max_size, sizeof(parenthesis_t), comp);
-    }
-    
+    qsort(parentheses, parentheses_pair_num, sizeof(parenthesis_t), comp);
 
     return parentheses_pair_num;
 }
