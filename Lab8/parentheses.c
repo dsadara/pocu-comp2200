@@ -1,6 +1,7 @@
+#include <stdlib.h>
 #include "parentheses.h"
 
-int comp(const void* a, const void* b)  
+int compare_opening_index(const void* a, const void* b)  
 {
     size_t num1 = ((parenthesis_t*)a)->opening_index;    
     size_t num2 = ((parenthesis_t*)b)->opening_index;   
@@ -38,12 +39,12 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
             my_stack[stack_element_count].parentheses = *s;
             my_stack[stack_element_count++].stack_element_count = s - str;
         }
-        /*
+        
         if (parenthesis_array_index >= max_size) {
             s++;
             continue;
         }
-        */
+        
         if (*s == '}') {
             printf("find %c..pair index:%d\n", *s, s - str);
             find_result = find_stack_element(my_stack, stack_element_count, '{');
@@ -95,15 +96,8 @@ size_t get_matching_parentheses(parenthesis_t* parentheses, size_t max_size, con
         s++;
     }
 
-   
-
     free(my_stack);
-    printf("parenthesis_array_index:%d\n", parenthesis_array_index);
-    qsort(parentheses, parenthesis_array_index, sizeof(parenthesis_t), comp);
-
-    if (parenthesis_array_index >= max_size) {
-        parenthesis_array_index = max_size;
-    }
+    qsort(parentheses, parenthesis_array_index, sizeof(parenthesis_t), compare_opening_index);
 
     return parenthesis_array_index;
 }
