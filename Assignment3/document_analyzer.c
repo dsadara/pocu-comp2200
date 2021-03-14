@@ -112,18 +112,18 @@ void dispose(void)
     free(g_paragraph);
     
     for (i = 0; i < g_paragraph_num; i++) {
+        free(g_sentence_buffer_addresses[i]);
+    }
+    free(g_sentence_buffer_addresses);
+
+    free(g_paragraph_buffer);
+    free(g_document_buffer);
+
+    for (i = 0; i < g_paragraph_num; i++) {
         free(g_paragraph_to_sentence_to_word[i]);
     }
     free(g_paragraph_to_sentence_to_word);
     free(g_paragraph_to_sentence_num);
-
-    for (i = 0; i < g_paragraph_num; i++) {
-        free(g_sentence_buffer_addresses[i]);
-    }
-    free(g_sentence_buffer_addresses);
-    
-    free(g_paragraph_buffer);
-    free(g_document_buffer);
 }
 
 size_t get_total_word_count(void)
@@ -246,7 +246,7 @@ size_t get_sentence_word_count(const char** sentence)
     }
 
     for (i = 0; i < g_paragraph_num; i++) {
-        for (j = 0; j < g_sentence_num; j++) {
+        for (j = 0; j < g_paragraph_to_sentence_num[i]; j++) {
             if (g_paragraph[i][j] == sentence) {
                 paragraph_index = i;
                 sentence_index = j;
