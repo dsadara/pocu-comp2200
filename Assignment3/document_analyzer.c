@@ -40,40 +40,40 @@ int load_document(const char* document)
         g_buffer_size++;
     }
     rewind(stream);
-    g_document_buffer = malloc(g_buffer_size + 1);                                          
+    g_document_buffer = malloc(g_buffer_size + 1);                                                      
     fread(g_document_buffer, sizeof(char), g_buffer_size, stream);
     g_document_buffer[g_buffer_size] = '\0';
     
     g_paragraph_num = get_buffer_paragraph_count();
-    g_paragraph_to_sentence_to_word = malloc(sizeof(size_t*) * g_paragraph_num);            
-    g_paragraph_to_sentence_num = malloc(sizeof(size_t) * g_paragraph_num);                 
-    g_paragraph_buffer = malloc(sizeof(char*) * g_paragraph_num);                           
+    g_paragraph_to_sentence_to_word = malloc(sizeof(size_t*) * g_paragraph_num);    
+    g_paragraph_to_sentence_num = malloc(sizeof(size_t) * g_paragraph_num);         
+    g_paragraph_buffer = malloc(sizeof(char*) * g_paragraph_num);                   
     g_paragraph_buffer[0] = strtok(g_document_buffer, delims3);
     for (i = 1; i < g_paragraph_num; i++) {
         g_paragraph_buffer[i] = strtok(NULL, delims3);
     }
 
-    g_paragraph = malloc(sizeof(char***) * g_paragraph_num);    
-    g_sentence_buffer_addresses = malloc(sizeof(char**) * g_paragraph_num);                                             
+    g_paragraph = malloc(sizeof(char***) * g_paragraph_num);                        
+    g_sentence_buffer_addresses = malloc(sizeof(char**) * g_paragraph_num);                                              
     for (i = 0; i < g_paragraph_num; i++) {
         const char*** g_sentences_tmp;
         g_sentence_num = get_sentence_count(g_paragraph_buffer[i]);
         g_paragraph_to_sentence_num[i] = g_sentence_num;
-        g_sentence_word_num = malloc(sizeof(size_t) * g_sentence_num);                     
-        g_sentence_buffer = malloc(sizeof(char*) * g_sentence_num);                         
+        g_sentence_word_num = malloc(sizeof(size_t) * g_sentence_num);                                   
+        g_sentence_buffer = malloc(sizeof(char*) * g_sentence_num);                             
         g_sentence_buffer_addresses[i] = g_sentence_buffer;
         g_sentence_buffer[0] = strtok(g_paragraph_buffer[i], delims1);
         for (j = 1; j < g_sentence_num; j++) {
             g_sentence_buffer[j] = strtok(NULL, delims1);
         }
 
-        g_sentences_tmp = malloc(sizeof(char**) * g_sentence_num);                          
+        g_sentences_tmp = malloc(sizeof(char**) * g_sentence_num);                               
         for (j = 0; j < g_sentence_num; j++) {
             const char** g_words_tmp;
 
             word_num = get_word_count(g_sentence_buffer[j]);
             g_sentence_word_num[j] = word_num;
-            g_words_tmp = malloc(sizeof(char*) * word_num);                                 
+            g_words_tmp = malloc(sizeof(char*) * word_num);                                    
             g_words_tmp[0] = strtok(g_sentence_buffer[j], delims2);
             for (k = 1; k < word_num; k++) {
                 g_words_tmp[k] = strtok(NULL, delims2);
@@ -98,8 +98,6 @@ void dispose(void)
 
     g_is_file_loaded = FALSE;
 
-    free(g_document_buffer);
-    free(g_paragraph_buffer);
     for (i = 0; i < g_paragraph_num; i++) {
         for (j = 0; j < g_paragraph_to_sentence_num[i]; j++) {
             free(g_paragraph[i][j]);
@@ -109,15 +107,18 @@ void dispose(void)
         free(g_paragraph[i]);
     }
     free(g_paragraph);
-    for (i = 0; i < g_paragraph_num; i++) {
-        free(g_sentence_buffer_addresses[i]);
-    }
-    free(g_sentence_buffer_addresses);
+    
     for (i = 0; i < g_paragraph_num; i++) {
         free(g_paragraph_to_sentence_to_word[i]);
     }
     free(g_paragraph_to_sentence_to_word);
     free(g_paragraph_to_sentence_num);
+    for (i = 0; i < g_paragraph_num; i++) {
+        free(g_sentence_buffer_addresses[i]);
+    }
+    free(g_sentence_buffer_addresses);
+    free(g_paragraph_buffer);
+    free(g_document_buffer);
 }
 
 size_t get_total_word_count(void)
