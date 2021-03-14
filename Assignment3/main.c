@@ -12,14 +12,11 @@ int main(void)
     assert(load_document("doesntexist.txt") == FALSE);
     assert(load_document("input.txt") == TRUE);
 
-    printf("word_count: %d\n", get_total_word_count());
     assert(get_total_word_count() == 58U);
     
-    printf("get_total_sentence_count: %d\n", get_total_sentence_count());
     assert(get_total_sentence_count() == 9U);
-    printf("get_total_paragraph_count(): %d\n", get_total_paragraph_count());
     assert(get_total_paragraph_count() == 3U);
-/*
+
     assert(get_paragraph_or_null(3) == NULL);
 
     paragraph = get_paragraph_or_null(1);
@@ -59,8 +56,7 @@ int main(void)
     assert(strcmp(sentence[i++], "easy") == 0);
 
     assert(print_as_tree("output.txt") == TRUE);
-    */
+    
     dispose();
-
     return 0;
 }

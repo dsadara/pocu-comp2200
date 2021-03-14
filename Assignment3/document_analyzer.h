@@ -1,6 +1,8 @@
 #ifndef DOCUMENT_ANALYZER_H
 #define DOCUMENT_ANALYZER_H
 
+
+#define _CRT_SECURE_NO_WARNINGS
 #define TRUE (1)
 #define FALSE (0)
 
@@ -13,7 +15,7 @@ size_t get_total_word_count(void);
 size_t get_total_sentence_count(void);
 
 size_t get_total_paragraph_count(void);
-/*
+
 const char*** get_paragraph_or_null(const size_t paragraph_index);
 
 size_t get_paragraph_word_count(const char*** paragraph);
@@ -25,5 +27,11 @@ const char** get_sentence_or_null(const size_t paragraph_index, const size_t sen
 size_t get_sentence_word_count(const char** sentence);
 
 int print_as_tree(const char* filename);
-*/
+
+size_t get_word_count(char* sentence);
+
+size_t get_sentence_count(char* paragraph);
+
+size_t get_buffer_paragraph_count(void);
+
 #endif /* DOCUMENT_ANALYZER_H */
