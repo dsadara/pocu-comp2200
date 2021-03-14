@@ -135,6 +135,8 @@ void dispose(void)
     size_t i;
     size_t j;
 
+    g_is_file_loaded = FALSE;
+
     free(g_document_buffer);
     free(g_paragraph_buffer);
     for (i = 0; i < g_paragraph_num; i++) {
@@ -394,7 +396,7 @@ size_t get_word_count(char* sentence)
     char* s = sentence;
 
     if (*s == ' ') {
-        count--;
+        s++;
     }
 
     while (*s != '\0') {
