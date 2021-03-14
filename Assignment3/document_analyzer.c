@@ -34,6 +34,10 @@ int load_document(const char* document)
         fprintf(stderr, "error while opening %s\n", document);
         return FALSE;
     }
+
+    if (g_is_file_loaded == TRUE) {
+        dispose();
+    }
     g_is_file_loaded = TRUE;
 
     while (fgetc(stream) != EOF) {
@@ -112,10 +116,12 @@ void dispose(void)
     }
     free(g_paragraph_to_sentence_to_word);
     free(g_paragraph_to_sentence_num);
+
     for (i = 0; i < g_paragraph_num; i++) {
         free(g_sentence_buffer_addresses[i]);
     }
     free(g_sentence_buffer_addresses);
+    
     free(g_paragraph_buffer);
     free(g_document_buffer);
 }
