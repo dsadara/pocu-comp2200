@@ -12,6 +12,7 @@ int main(void)
     assert(load_document("doesntexist.txt") == FALSE);
     assert(load_document("input.txt") == TRUE);
 
+    printf("get_total_word_count(): %zd\n", get_total_word_count());
     assert(get_total_word_count() == 58U);
     
     assert(get_total_sentence_count() == 9U);
