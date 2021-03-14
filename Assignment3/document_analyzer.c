@@ -9,7 +9,6 @@ char** g_sentence_buffer = NULL;
 char** g_paragraph_buffer = NULL;
 char*** g_sentence_buffer_addresses = NULL;
 char* g_word = NULL;
-/*char*** g_sentence = NULL; */
 const char**** g_paragraph;
 size_t** g_paragraph_to_sentence_to_word = NULL;
 size_t* g_sentence_word_num = NULL; 
@@ -85,44 +84,6 @@ int load_document(const char* document)
         g_paragraph_to_sentence_to_word[i] = g_sentence_word_num;
     }
 
-    /*
-        for (i = 0; i < g_paragraph_num; i++) {
-            printf("**paragraph[%d]**\n", i);
-            for (j = 0; j < g_paragraph_to_sentence_num[i]; j++) {
-                for (k = 0; k < g_paragraph_to_sentence_to_word[i][j]; k++) {
-                    printf("%s\n", g_paragraph[i][j][k]);
-                }
-            }
-        }
-    */
-
-    /*
-    g_sentence_num = get_total_sentence_count();
-    g_sentence_buffer = malloc(sizeof(char*) * g_sentence_num);
-    g_sentence_buffer[0] = strtok(g_document_buffer, delims1);
-    for (i = 1; i < g_sentence_num; i++) {
-        g_sentence_buffer[i] = strtok(NULL, delims1);
-    }
-
-    g_sentence = malloc(sizeof(char**) * g_sentence_num);
-    for (i = 0; i < g_sentence_num; i++) {
-        word_num = get_word_count(g_sentence_buffer[i]);
-        word_num_array[i] = word_num;
-        g_words_tmp = malloc(sizeof(char**) * word_num);
-        g_words_tmp[0] = strtok(g_sentence_buffer[i], delims2);
-        for (j = 1; j < word_num; j++) {
-            g_words_tmp[j] = strtok(NULL, delims2);
-        }
-        g_sentence[i] = g_words_tmp;
-    }
-
-    
-    for (i = 0; i < g_sentence_num; i++) {
-        for (j = 0; j < word_num_array[i]; j++) {
-            printf("sentence[%d][%d]%s\n", i, j, g_sentence[i][j]);
-        }
-    }
-    */
     if (fclose(stream) != 0) {
         fprintf(stderr, "error while closing\n");
     }
@@ -198,63 +159,7 @@ size_t get_total_paragraph_count(void)
 
     return g_paragraph_num;
 }
-/*
-size_t get_total_word_count(void)
-{
-    size_t i;
-    size_t count = 0;
-    for (i = 0; i < g_buffer_size; i++) {
-        if (g_document_buffer[i] == ' ') {
-            count++;
-        }
 
-        if (g_document_buffer[i] == ',' && g_document_buffer[i + 1] == ' ' ) {
-            i++;
-            count++;
-        }
-
-        if ((g_document_buffer[i] == '.' || g_document_buffer[i] == '!' || g_document_buffer[i] == '?') && g_document_buffer[i + 1] == ' ' ) {
-            i++;
-            count++;
-        }
-
-        if ((g_document_buffer[i] == '.' || g_document_buffer[i] == '!' || g_document_buffer[i] == '?') && g_document_buffer[i + 1] == '\n' ) {
-            i++;
-            count++;
-        }
-
-        if (g_document_buffer[i] == '.' || g_document_buffer[i] == '!' || g_document_buffer[i] == '?') {
-            count++;
-        }
-    }
-    return count;
-}
-
-size_t get_total_sentence_count(void)
-{
-    size_t i;
-    size_t count = 0;
-    for (i = 0; i < g_buffer_size; i++) {
-        if (g_document_buffer[i] == '.' || g_document_buffer[i] == '!' || g_document_buffer[i] == '?') {
-            count++;
-        }
-    }
-    return count;
-}
-
-size_t get_total_paragraph_count(void)
-{
-    size_t i;
-    size_t count = 1;
-    for (i = 0; i < g_buffer_size; i++) {
-        if ((g_document_buffer[i] == '.' || g_document_buffer[i] == '!' || g_document_buffer[i] == '?') && g_document_buffer[i + 1] == '\n') {
-            i++;
-            count++;
-        }
-    }
-    return count;
-}
-*/
 const char*** get_paragraph_or_null(const size_t paragraph_index)
 {
     if (!g_is_file_loaded) {
@@ -282,9 +187,7 @@ size_t get_paragraph_word_count(const char*** paragraph)
             paragraph_index = i;
         }
     }
-   /* printf("paragraph_index:%d\n", paragraph_index);
 
-    printf("g_paragraph_to_sentence_num[paragraph_index]:%d\n", g_paragraph_to_sentence_num[paragraph_index]); */
     for (i = 0; i < g_paragraph_to_sentence_num[paragraph_index]; i++) {
         word_count += g_paragraph_to_sentence_to_word[paragraph_index][i];
     }
