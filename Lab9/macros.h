@@ -13,8 +13,8 @@
 
 #define SET(ary, start, count, value) {                  \
     size_t i;                                            \
-    for (i = 0; i < (count); i++) {                        \
-        ary[(start) + i] = (value);                          \
+    for (i = 0; i < (count); i++) {                      \
+        (ary)[(start) + i] = (value);                    \
     }                                                    \
 }                                                        \
 
