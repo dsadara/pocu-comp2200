@@ -6,12 +6,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct todo_list_node {
-	int32_t priority;
+typedef struct {
+    int32_t priority;
 	char task[512];
 } todo_list_node_t;
 
-typedef struct todo_list {
+typedef struct {
 	todo_list_node_t* nodes;
 } todo_list_t;
 
