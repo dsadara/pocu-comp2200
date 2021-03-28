@@ -31,4 +31,6 @@ bool is_empty(const todo_list_t* todo_list);
 
 void print_list(const todo_list_t* todo_list);
 
+size_t get_max_size(const todo_list_t* todo_list);
+
 #endif /* TODO_LIST_H */

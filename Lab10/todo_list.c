@@ -3,10 +3,12 @@
 todo_list_t init_todo_list(size_t max_size)
 {
     todo_list_t todo_list;
-    todo_list.nodes = malloc(sizeof(todo_list_node_t) * max_size + sizeof(size_t));
+    todo_list.nodes = malloc(sizeof(todo_list_node_t) * max_size + sizeof(size_t) * 2);
 
     size_t* count = (size_t*)todo_list.nodes;
     *count = 0;
+    size_t* max_size_reserve = (size_t*)todo_list.nodes + 1;
+    *max_size_reserve = max_size;
     return todo_list;
 }
 
@@ -18,12 +20,12 @@ void finalize_todo_list(todo_list_t* todo_list)
 
 bool add_todo(todo_list_t* todo_list, const int32_t priority, const char* task)
 {
-    if (priority < 0) {
+    if (priority < 0 || get_max_size(todo_list) == get_count(todo_list)) {
         return false;
     }
 
     size_t current_index = get_count(todo_list);
-    todo_list_node_t* todo_list_node_start = (todo_list_node_t*)((size_t*)todo_list->nodes + 1);
+    todo_list_node_t* todo_list_node_start = (todo_list_node_t*)((size_t*)todo_list->nodes + 2);
 
     todo_list_node_start[current_index].priority = priority;
     strncpy(todo_list_node_start[current_index].task, task, 512);
@@ -37,7 +39,7 @@ bool complete_todo(todo_list_t* todo_list)
     if (get_count(todo_list) == 0) {
         return false;
     }
-    todo_list_node_t* todo_list_node_start = (todo_list_node_t*)((size_t*)todo_list->nodes + 1);
+    todo_list_node_t* todo_list_node_start = (todo_list_node_t*)((size_t*)todo_list->nodes + 2);
     int32_t high_priority_index;
     size_t task_count = get_count(todo_list);
     size_t i;
@@ -60,10 +62,14 @@ bool complete_todo(todo_list_t* todo_list)
 
 const char* peek_or_null(const todo_list_t* todo_list)
 {
-    todo_list_node_t* todo_list_node_start = (todo_list_node_t*)((size_t*)todo_list->nodes + 1);
+    todo_list_node_t* todo_list_node_start = (todo_list_node_t*)((size_t*)todo_list->nodes + 2);
     int32_t high_priority_index;
     size_t task_count = get_count(todo_list);
     size_t i;
+
+    if (task_count == 0) {
+        return NULL;
+    }
 
     high_priority_index = 0;
     for (i = 1; i < task_count; i++) {
@@ -98,4 +104,9 @@ void print_list(const todo_list_t* todo_list)
         printf("priority: %d, task : %s\n", todo_list_node_start[i].priority, todo_list_node_start[i].task);
     }
     printf("**print end**\n");
+}
+
+size_t get_max_size(const todo_list_t* todo_list)
+{
+    return *((size_t*)todo_list->nodes + 1);
 }
