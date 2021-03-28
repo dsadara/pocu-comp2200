@@ -8,11 +8,11 @@
 
 typedef struct {
     int32_t priority;
-	char task[512];
+    char task[512];
 } todo_list_node_t;
 
 typedef struct {
-	todo_list_node_t* nodes;
+    todo_list_node_t* nodes;
 } todo_list_t;
 
 todo_list_t init_todo_list(size_t max_size);
