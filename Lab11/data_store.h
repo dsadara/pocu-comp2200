@@ -5,6 +5,7 @@
 #include <malloc.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "user.h"
 
 user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id);

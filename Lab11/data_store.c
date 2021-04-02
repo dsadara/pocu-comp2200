@@ -44,7 +44,7 @@ user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id)
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] == 0) {
+        if (users_or_null[i] == NULL) {
             break;
         }
         if (users_or_null[i]->id == id) {
@@ -59,7 +59,7 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] == 0) {
+        if (users_or_null[i] == NULL) {
             break;
         }
         if (strcmp(users_or_null[i]->username, username) == 0) {
@@ -81,7 +81,7 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
 
     FILE* stream = fopen("log.txt", "a");
     for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] == 0) {
+        if (users_or_null[i] == NULL) {
             break;
         }
         
@@ -115,7 +115,7 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
     FILE* stream = fopen("log.txt", "a");
 
     for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] == 0) {
+        if (users_or_null[i] == NULL) {
             break;
         }
 
