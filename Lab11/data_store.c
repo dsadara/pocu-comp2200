@@ -63,9 +63,9 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
     return 0;
 }
 
-int update_email(user_t** users_or_null, size_t id, const char* email)
+bool update_email(user_t** users_or_null, size_t id, const char* email)
 {
-    int return_value = 0;
+    int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     char later_email_address_for_logging[50];
@@ -87,7 +87,7 @@ int update_email(user_t** users_or_null, size_t id, const char* email)
 #endif
             fprintf(stream, "TRACE: User %zd updated email from \"%s\" to \"%s\"\n", users_or_null[i]->id, prior_email_address_for_logging, later_email_address_for_logging);
             strcpy(users_or_null[i]->email, email);
-            return_value = 1;
+            return_value = true;
             break;
         }
     }
@@ -96,9 +96,9 @@ int update_email(user_t** users_or_null, size_t id, const char* email)
     return return_value;
 }
 
-int update_password(user_t** users_or_null, size_t id, const char* password)
+bool update_password(user_t** users_or_null, size_t id, const char* password)
 {
-    int return_value = 0;
+    int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     char prior_password_for_logging[50];
@@ -121,7 +121,7 @@ int update_password(user_t** users_or_null, size_t id, const char* password)
 #endif
             fprintf(stream, "TRACE: User %zd updated password from \"%s\" to \"%s\"\n", users_or_null[i]->id, prior_password_for_logging, later_password_for_logging);
             strcpy(users_or_null[i]->password, password);
-            return_value = 1;
+            return_value = true;
             break;
         }
     }
