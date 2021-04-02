@@ -25,7 +25,7 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
     return 0;
 }
 
-int update_email(user_t** users_or_null, size_t id, const char* email)
+int update_email_release(user_t** users_or_null, size_t id, const char* email)
 {
     int return_value = 0;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
@@ -58,7 +58,7 @@ int update_email(user_t** users_or_null, size_t id, const char* email)
     return return_value;
 }
 
-int update_password(user_t** users_or_null, size_t id, const char* password)
+int update_password_release(user_t** users_or_null, size_t id, const char* password)
 {
     int return_value = 0;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
