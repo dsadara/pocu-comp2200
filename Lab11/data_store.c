@@ -91,7 +91,7 @@ int update_password(user_t** users_or_null, size_t id, const char* password)
     return return_value;
 }
 
-void hide_email_address(char* email_address_for_logging)
+static void hide_email_address(char* email_address_for_logging)
 {
     size_t i;
     size_t at_location = 0;
@@ -114,7 +114,7 @@ void hide_email_address(char* email_address_for_logging)
     }
 }
 
-void hide_password(char* password)
+static void hide_password(char* password)
 {
     size_t i;
     size_t password_length = strlen(password);

@@ -15,8 +15,8 @@ int update_email(user_t** users_or_null, size_t id, const char* email);
 
 int update_password(user_t** users_or_null, size_t id, const char* password);
 
-void hide_email_address(char* email_address_for_logging);
+static void hide_email_address(char* email_address_for_logging);
 
-void hide_password(char* password);
+static void hide_password(char* password);
 
 #endif /* DATA_STORE_H */
