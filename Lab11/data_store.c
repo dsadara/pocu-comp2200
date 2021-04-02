@@ -1,5 +1,44 @@
 #include "data_store.h"
 
+static void hide_email_address(char* email_address_for_logging)
+{
+    size_t i;
+    size_t at_location = 0;
+
+    for (i = 0; i < 50; i++) {
+        if (email_address_for_logging[i] == '@') {
+            at_location = i;
+            break;
+        }
+    }
+
+    if (at_location == 1) {
+        email_address_for_logging[0] = '*';
+    } else if (at_location == 2) {
+        email_address_for_logging[1] = '*';
+    } else if (at_location != 0) {
+        for (i = 1; i < at_location - 1; i++) {
+            email_address_for_logging[i] = '*';
+        }
+    }
+}
+
+static void hide_password(char* password)
+{
+    size_t i;
+    size_t password_length = strlen(password);
+
+    if (password_length == 1) {
+        password[0] = '*';
+    } else if (password_length == 2) {
+        password[1] = '*';
+    } else {
+        for (i = 1; i < password_length - 1; i++) {
+            password[i] = '*';
+        }
+    }
+}
+
 user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id)
 {
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
@@ -89,43 +128,4 @@ int update_password(user_t** users_or_null, size_t id, const char* password)
 
     fclose(stream);
     return return_value;
-}
-
-static void hide_email_address(char* email_address_for_logging)
-{
-    size_t i;
-    size_t at_location = 0;
-
-    for (i = 0; i < 50; i++) {
-        if (email_address_for_logging[i] == '@') {
-            at_location = i;
-            break;
-        }
-    }
-
-    if (at_location == 1) {
-        email_address_for_logging[0] = '*';
-    } else if (at_location == 2) {
-        email_address_for_logging[1] = '*';
-    } else if (at_location != 0) {
-        for (i = 1; i < at_location - 1; i++) {
-            email_address_for_logging[i] = '*';
-        }
-    }
-}
-
-static void hide_password(char* password)
-{
-    size_t i;
-    size_t password_length = strlen(password);
-
-    if (password_length == 1) {
-        password[0] = '*';
-    } else if (password_length == 2) {
-        password[1] = '*';
-    } else {
-        for (i = 1; i < password_length - 1; i++) {
-            password[i] = '*';
-        }
-    }
 }
