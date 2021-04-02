@@ -44,6 +44,9 @@ user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id)
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
+        if (users_or_null[i] == 0) {
+            break;
+        }
         if (users_or_null[i]->id == id) {
             return users_or_null[i];
         }
@@ -56,6 +59,9 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
+        if (users_or_null[i] == 0) {
+            break;
+        }
         if (strcmp(users_or_null[i]->username, username) == 0) {
             return users_or_null[i];
         }
