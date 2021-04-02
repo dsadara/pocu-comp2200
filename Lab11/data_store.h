@@ -1,7 +1,6 @@
 #ifndef DATA_STORE_H
 #define DATA_STORE_H
 
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
