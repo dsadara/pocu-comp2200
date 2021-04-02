@@ -71,6 +71,10 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
 
 bool update_email(user_t** users_or_null, size_t id, const char* email)
 {
+    size_t length = strlen(email);
+    if (length > 50) {
+        return false;
+    }
     int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
@@ -104,6 +108,10 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
 
 bool update_password(user_t** users_or_null, size_t id, const char* password)
 {
+    size_t length = strlen(password);
+    if (length > 50) {
+        return false;
+    }
     int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
