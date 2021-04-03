@@ -32,7 +32,7 @@ static void hide_password(char* password)
         password[0] = '*';
     } else if (password_length == 2) {
         password[1] = '*';
-    } else if (password_length != 0){
+    } else if (password_length != 0) {
         for (i = 1; i < password_length - 1; i++) {
             password[i] = '*';
         }
@@ -44,14 +44,14 @@ user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id)
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] == NULL) {
-            break;
-        }
+       //if (users_or_null[i] == NULL) {
+       //     break;
+       // }
         if (users_or_null[i]->id == id) {
             return users_or_null[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 user_t* get_user_by_username_or_null(user_t** users_or_null, const char* username)
@@ -59,9 +59,9 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] == NULL) {
-            break;
-        }
+        //if (users_or_null[i] == NULL) {
+        //    break;
+        //}
         if (strcmp(users_or_null[i]->username, username) == 0) {
             return users_or_null[i];
         }
@@ -78,10 +78,10 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
     int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
-    char later_email_address_for_logging[50];
-    char prior_email_address_for_logging[50];
+    char later_email_address_for_release[50];
+    char prior_email_address_for_release[50];
 
-    strcpy(later_email_address_for_logging, email);
+    strcpy(later_email_address_for_release, email);
 
     FILE* stream = fopen("log.txt", "a");
     for (i = 0; i < user_num; i++) {
@@ -90,12 +90,12 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
         }
         
         if (users_or_null[i]->id == id) {
-            strcpy(prior_email_address_for_logging, users_or_null[i]->email);
+            strcpy(prior_email_address_for_release, users_or_null[i]->email);
 #if defined (RELEASE)
-            hide_email_address(prior_email_address_for_logging);
-            hide_email_address(later_email_address_for_logging);
+            hide_email_address(prior_email_address_for_release);
+            hide_email_address(later_email_address_for_release);
 #endif
-            fprintf(stream, "TRACE: User %zd updated email from \"%s\" to \"%s\"\n", users_or_null[i]->id, prior_email_address_for_logging, later_email_address_for_logging);
+            fprintf(stream, "TRACE: User %zd updated email from \"%s\" to \"%s\"\n", users_or_null[i]->id, prior_email_address_for_release, later_email_address_for_release);
             strcpy(users_or_null[i]->email, email);
             return_value = true;
             break;
