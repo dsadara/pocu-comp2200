@@ -2,7 +2,6 @@
 #define DATA_STORE_H
 
 #include <stdio.h>
-#include <malloc.h>
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>

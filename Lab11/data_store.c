@@ -44,13 +44,15 @@ user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id)
     if (users_or_null == NULL) {
         return NULL;
     }
-    size_t user_num = _msize(users_or_null) / sizeof(user_t*);
-    size_t i;
-    for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] != NULL && users_or_null[i]->id == id) {
+    size_t i = 0;
+
+    while (users_or_null[i] != NULL) {
+        if (users_or_null[i]->id == id) {
             return users_or_null[i];
         }
+        i++;
     }
+
     return NULL;
 }
 
@@ -59,12 +61,13 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
     if (users_or_null == NULL || username == NULL) {
         return NULL;
     }
-    size_t user_num = _msize(users_or_null) / sizeof(user_t*);
-    size_t i;
-    for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] != NULL && strcmp(users_or_null[i]->username, username) == 0) {
+    size_t i = 0;
+
+    while (users_or_null[i] != NULL) {
+        if (strcmp(users_or_null[i]->username, username) == 0) {
             return users_or_null[i];
         }
+        i++;
     }
     return NULL;
 }
@@ -75,8 +78,7 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
         return false;
     }
     int return_value = false;
-    size_t user_num = _msize(users_or_null) / sizeof(user_t*);
-    size_t i;
+    size_t i = 0;
     char later_email_address_for_release[51];
     char prior_email_address_for_release[51];
 
@@ -85,8 +87,8 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
     hide_email_address(later_email_address_for_release);
 
     FILE* stream = fopen("log.txt", "a");
-    for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] != NULL && users_or_null[i]->id == id) {
+    while (users_or_null[i] != NULL) {
+        if (users_or_null[i]->id == id) {
             strncpy(prior_email_address_for_release, users_or_null[i]->email, 51);
             prior_email_address_for_release[50] = '\0';
 #if defined (RELEASE)
@@ -100,8 +102,8 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
             return_value = true;
             break;
         }
+        i++;
     }
-    
     fclose(stream);
     return return_value;
 }
@@ -116,8 +118,7 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
         return false;
     }
     int return_value = false;
-    size_t user_num = _msize(users_or_null) / sizeof(user_t*);
-    size_t i;
+    size_t i = 0;
     char prior_password_for_release[51];
     char later_password_for_release[51];
 
@@ -127,8 +128,8 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
 
     FILE* stream = fopen("log.txt", "a");
 
-    for (i = 0; i < user_num; i++) {
-        if (users_or_null[i] != NULL && users_or_null[i]->id == id) {
+    while (users_or_null[i] != NULL) {
+        if (users_or_null[i]->id == id) {
             strncpy(prior_password_for_release, users_or_null[i]->password, 51);
             prior_password_for_release[50] = '\0';
 #if defined (RELEASE)
@@ -142,6 +143,7 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
             return_value = true;
             break;
         }
+        i++;
     }
 
     fclose(stream);
