@@ -41,6 +41,9 @@ static void hide_password(char* password)
 
 user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id)
 {
+    if (users_or_null == NULL) {
+        return NULL;
+    }
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
@@ -53,6 +56,9 @@ user_t* get_user_by_id_or_null(user_t** users_or_null, size_t id)
 
 user_t* get_user_by_username_or_null(user_t** users_or_null, const char* username)
 {
+    if (users_or_null == NULL || username == NULL) {
+        return NULL;
+    }
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
     for (i = 0; i < user_num; i++) {
@@ -60,11 +66,14 @@ user_t* get_user_by_username_or_null(user_t** users_or_null, const char* usernam
             return users_or_null[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 bool update_email(user_t** users_or_null, size_t id, const char* email)
 {
+    if (users_or_null == NULL) {
+        return false;
+    }
     size_t length = strlen(email);
     int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
@@ -97,6 +106,9 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
 
 bool update_password(user_t** users_or_null, size_t id, const char* password)
 {
+    if (users_or_null == NULL || password == NULL) {
+        return false;
+    }
     size_t length = strlen(password);
     if (length > 50) {
         return false;
