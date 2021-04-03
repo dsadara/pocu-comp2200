@@ -3,7 +3,7 @@
 hashmap_t* init_hashmap_malloc(size_t length, size_t (*p_hash_func)(const char* key))
 {
     size_t i;
-    hashmap_t* hashmap = NULL;
+    hashmap_t* hashmap = malloc(sizeof(hashmap_t));
     hashmap->length = length;
     hashmap->plist = malloc(sizeof(node_t*) * length);
     hashmap->hash_func = p_hash_func;
@@ -158,4 +158,5 @@ void destroy(hashmap_t* hashmap)
         }
     }
     free(hashmap->plist);
+    free(hashmap);
 }
