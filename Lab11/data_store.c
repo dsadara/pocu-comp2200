@@ -77,8 +77,8 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
     int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
-    char later_email_address_for_release[50];
-    char prior_email_address_for_release[50];
+    char later_email_address_for_release[51];
+    char prior_email_address_for_release[51];
 
     strcpy(later_email_address_for_release, email);
     hide_email_address(later_email_address_for_release);
@@ -115,8 +115,8 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
     int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
-    char prior_password_for_release[50];
-    char later_password_for_release[50];
+    char prior_password_for_release[51];
+    char later_password_for_release[51];
 
     strcpy(later_password_for_release, password);
     hide_password(later_password_for_release);
