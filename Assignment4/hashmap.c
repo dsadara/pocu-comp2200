@@ -148,15 +148,27 @@ void destroy(hashmap_t* hashmap)
     node_t* curr_node;
     node_t* tmp_node;
 
+    if (hashmap == NULL) {
+        return;
+    }
+
+    if (hashmap->plist == NULL) {
+        return;
+    }
+
     for (i = 0; i < length; i++) {
         curr_node = hashmap->plist[i];
-        if (curr_node != NULL) {
+        while (curr_node != NULL) {
             tmp_node = curr_node;
             curr_node = curr_node->next;
             free(tmp_node->key);
+            tmp_node->key = NULL;
             free(tmp_node);
+            tmp_node = NULL;
         }
     }
     free(hashmap->plist);
+    hashmap->plist = NULL;
     free(hashmap);
+    hashmap = NULL;
 }
