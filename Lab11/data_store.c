@@ -74,7 +74,6 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
     if (users_or_null == NULL) {
         return false;
     }
-    size_t length = strlen(email);
     int return_value = false;
     size_t user_num = _msize(users_or_null) / sizeof(user_t*);
     size_t i;
