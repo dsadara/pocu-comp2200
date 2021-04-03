@@ -3,7 +3,7 @@
 hashmap_t* init_hashmap_malloc(size_t length, size_t (*p_hash_func)(const char* key))
 {
     size_t i;
-    hashmap_t* hashmap;
+    hashmap_t* hashmap = NULL;
     hashmap->length = length;
     hashmap->plist = malloc(sizeof(node_t*) * length);
     hashmap->hash_func = p_hash_func;
@@ -112,7 +112,6 @@ int remove_key(hashmap_t* hashmap, const char* key)
     size_t hash_id;
     node_t* curr_node;
     node_t* prior_node;
-    node_t* curr_node2;
 
     hash_id = hashmap->hash_func(key);
     start_index = hash_id % hashmap->length;
