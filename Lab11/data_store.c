@@ -5,7 +5,7 @@ static void hide_email_address(char* email_address_for_logging)
     size_t i;
     size_t at_location = 0;
 
-    for (i = 0; i < 50; i++) {
+    for (i = 0; i < 51; i++) {
         if (email_address_for_logging[i] == '@') {
             at_location = i;
             break;
@@ -80,20 +80,23 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
     char later_email_address_for_release[51];
     char prior_email_address_for_release[51];
 
-    strcpy(later_email_address_for_release, email);
+    strncpy(later_email_address_for_release, email, 51);
+    later_email_address_for_release[50] = '\0';
     hide_email_address(later_email_address_for_release);
 
     FILE* stream = fopen("log.txt", "a");
     for (i = 0; i < user_num; i++) {
         if (users_or_null[i] != NULL && users_or_null[i]->id == id) {
-            strcpy(prior_email_address_for_release, users_or_null[i]->email);
+            strncpy(prior_email_address_for_release, users_or_null[i]->email, 51);
+            prior_email_address_for_release[50] = '\0';
 #if defined (RELEASE)
             hide_email_address(prior_email_address_for_release);
             fprintf(stream, "TRACE: User %zd updated email from \"%s\" to \"%s\"\n", users_or_null[i]->id, prior_email_address_for_release, later_email_address_for_release);
 #else
             fprintf(stream, "TRACE: User %zd updated email from \"%s\" to \"%s\"\n", users_or_null[i]->id, users_or_null[i]->email, email);
 #endif
-            strcpy(users_or_null[i]->email, email);
+            strncpy(users_or_null[i]->email, email, 51);
+            users_or_null[i]->email[50] = '\0';
             return_value = true;
             break;
         }
@@ -118,21 +121,24 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
     char prior_password_for_release[51];
     char later_password_for_release[51];
 
-    strcpy(later_password_for_release, password);
+    strncpy(later_password_for_release, password, 51);
+    later_password_for_release[50] = '\0';
     hide_password(later_password_for_release);
 
     FILE* stream = fopen("log.txt", "a");
 
     for (i = 0; i < user_num; i++) {
         if (users_or_null[i] != NULL && users_or_null[i]->id == id) {
-            strcpy(prior_password_for_release, users_or_null[i]->password);
+            strncpy(prior_password_for_release, users_or_null[i]->password, 51);
+            prior_password_for_release[50] = '\0';
 #if defined (RELEASE)
             hide_password(prior_password_for_release);
             fprintf(stream, "TRACE: User %zd updated password from \"%s\" to \"%s\"\n", users_or_null[i]->id, prior_password_for_release, later_password_for_release);
 #else
             fprintf(stream, "TRACE: User %zd updated password from \"%s\" to \"%s\"\n", users_or_null[i]->id, users_or_null[i]->password, password);
 #endif
-            strcpy(users_or_null[i]->password, password);
+            strncpy(users_or_null[i]->password, password, 51);
+            users_or_null[i]->password[50] = '\0';
             return_value = true;
             break;
         }
