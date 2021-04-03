@@ -25,7 +25,6 @@ int add_key(hashmap_t* hashmap, const char* key, const int value)
     node_t* prior_node;
     char* tmp_key;
     
-    
     hash_id = hashmap->hash_func(key);
     start_index = hash_id % hashmap->length;
     curr_node = hashmap->plist[start_index];
@@ -52,7 +51,7 @@ int add_key(hashmap_t* hashmap, const char* key, const int value)
     }
     tmp_node = malloc(sizeof(node_t));
     tmp_node->value = value;
-    tmp_key = malloc(key_length);
+    tmp_key = malloc(key_length + 1);
     strcpy(tmp_key, key);
     tmp_key[key_length] = '\0';
     tmp_node->key = tmp_key;
@@ -148,16 +147,11 @@ void destroy(hashmap_t* hashmap)
     node_t* curr_node;
     node_t* tmp_node;
 
-    if (hashmap == NULL) {
-        return;
-    }
-
-    if (hashmap->plist == NULL) {
-        return;
-    }
-
     for (i = 0; i < length; i++) {
         curr_node = hashmap->plist[i];
+        if (curr_node == NULL) {
+            continue;
+        }
         while (curr_node != NULL) {
             tmp_node = curr_node;
             curr_node = curr_node->next;
