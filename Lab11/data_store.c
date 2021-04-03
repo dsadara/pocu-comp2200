@@ -32,7 +32,7 @@ static void hide_password(char* password)
         password[0] = '*';
     } else if (password_length == 2) {
         password[1] = '*';
-    } else {
+    } else if (password_length != 0){
         for (i = 1; i < password_length - 1; i++) {
             password[i] = '*';
         }
