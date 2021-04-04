@@ -77,7 +77,6 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
     if (users_or_null == NULL) {
         return false;
     }
-    bool return_value = false;
     size_t i = 0;
     char later_email_address_for_release[51];
     char prior_email_address_for_release[51];
@@ -99,13 +98,13 @@ bool update_email(user_t** users_or_null, size_t id, const char* email)
 #endif
             strncpy(users_or_null[i]->email, email, 51);
             users_or_null[i]->email[50] = '\0';
-            return_value = true;
-            break;
+            fclose(stream);
+            return true;
         }
         i++;
     }
     fclose(stream);
-    return return_value;
+    return false;
 }
 
 bool update_password(user_t** users_or_null, size_t id, const char* password)
@@ -117,7 +116,6 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
     if (length > 50) {
         return false;
     }
-    bool return_value = false;
     size_t i = 0;
     char prior_password_for_release[51];
     char later_password_for_release[51];
@@ -140,12 +138,12 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
 #endif
             strncpy(users_or_null[i]->password, password, 51);
             users_or_null[i]->password[50] = '\0';
-            return_value = true;
-            break;
+            fclose(stream);
+            return true;
         }
         i++;
     }
 
     fclose(stream);
-    return return_value;
+    return false;
 }
