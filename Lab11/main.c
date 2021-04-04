@@ -28,8 +28,14 @@ int main(void)
     assert(strcmp(user->email, "email5@pocustudent.academy") == 0);
     assert(strcmp(user->password, "password5") == 0);
 
-    assert(!update_email(users, 20, "someemail@email.com"));
-    assert(!update_password(users, 20, "randompassword"));
+    assert(!update_email(users, 0, "someemail@email.com"));
+    assert(!update_password(users, 0, "randompassword"));
+
+    assert(!update_email(users, 123, "someemail@email.com"));
+    assert(!update_password(users, 123, "randompassword"));
+
+    assert(!update_email(users, 2500, "someemail@email.com"));
+    assert(!update_password(users, 2500, "randompassword"));
 
     const char* new_email = "n@gmail.com";
     const char* new_password = "n";

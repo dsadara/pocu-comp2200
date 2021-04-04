@@ -113,9 +113,6 @@ bool update_password(user_t** users_or_null, size_t id, const char* password)
         return false;
     }
     size_t length = strlen(password);
-    if (length > 50) {
-        return false;
-    }
     size_t i = 0;
     char prior_password_for_release[51];
     char later_password_for_release[51];
